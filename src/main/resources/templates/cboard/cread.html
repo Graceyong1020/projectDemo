@@ -4,66 +4,69 @@
       xmlns:sec="http://www.w3.org/1999/xhtml"
       layout:decorate="~{layout/basic.html}"
       lang="en">
-
+<head>
+    <title>게시글 상세 보기</title>
+</head>
+<body>
 <div layout:fragment="content">
-    <div class="container mt-3">
-        <h3>게시글 상세 보기</h3>
-        <br/>
-        <div class="form-group">
-            <label for="cno">번호</label>
-            <input type="text" class="form-control" id="cno" name="cno" th:value="${cboard.cno}" readonly="readonly">
-        </div>
-        <div class="form-group">
-            <label for="title">제목</label>
-            <input type="text" class="form-control" id="title" name="title" th:value="${cboard.title}"
-                   readonly="readonly">
-        </div>
-        <div class="form-group">
-            <label for="userId">작성자</label>
-            <input type="text" class="form-control" id="userId" name="userId" th:value="${cboard.user.username}"
-                   readonly="readonly">
-        </div>
-        <div class="form-group">
-            <label for="content">내용</label>
-            <textarea name="content" id="content" class="form-control"
-                      readonly="readonly">[[${cboard.content }]]</textarea>
-        </div>
-        <div class="form-group">
-            <label for="createdAt">등록일</label>
-            <input type="text" class="form-control" id="createdAt" name="createdAt" th:value="${cboard.createdAt}"
-                   readonly="readonly">
-        </div>
-        <div class="form-group">
-            <label for="hitCount">조회수</label>
-            <input type="text" class="form-control" id="hitCount" name="hitCount" th:value="${cboard.hitCount}"
-                   readonly="readonly">
-        </div>
-        <div class="form-group">
-            <label for="replyCount">댓글 수</label>
-            <input type="text" class="form-control" id="replyCount" name="replyCount" th:value="${cboard.replyCount}"
-                   readonly="readonly">
-        </div>
-
-
-        <div class="input-group mb-3">
-                <span sec:authorize="isAuthenticated()"
-                      th:if="${#authentication.principal.username == cboard.user.username}">
-                    <a th:href="|@{/cboard/cmodify(cno=${cboard.cno})}|">
-                        <button type="button" id="btnModify" class="btn btn-secondary">수정</button>
-                    </a>
-                        <button type="button" id="btnRemove" class="btn btn-danger" onclick="removeRegisger(${cboard.cno})">삭제</button>
-                </span>
-            <a th:href="|@{/cboard/clist}|">
-                <button type="button" id="btnList" class="btn btn-info">List</button>
-            </a>
+    <div class="row mt-3">
+        <div class="col">
+            <div class="card">
+                <div class="card-header">
+                    게시글 상세 보기
+                </div>
+                <div class="card-body">
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">No</span>
+                        <input type="text" class="form-control" th:value="${dto.cno}" readonly>
+                    </div>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">제목</span>
+                        <input type="text" class="form-control" th:value="${dto.title}" readonly>
+                    </div>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">내용</span>
+                        <textarea class="form-control col-sm-5" rows="5" readonly>[[${dto.content}]]</textarea>
+                    </div>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">첨부파일</span>
+                        <div class="col" th:if="${dto.fileNames != null && dto.fileNames.size() > 0}">
+                            <div class="container-fluid d-flex uploadResult" style="flex-wrap: wrap;">
+                                <img class="m-3" th:each="fileName: ${dto.fileNames}"
+                                     th:src="|/cboard/view/s_${fileName}|">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">작성자</span>
+                        <input type="text" class="form-control" th:value="${dto.userId}" readonly>
+                    </div>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">작성일</span>
+                        <input type="text" class="form-control" th:value="${#temporals.format(dto.createdAt, 'yyyy-MM-dd')}" readonly>
+                    </div>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">수정일</span>
+                        <input type="text" class="form-control" th:value="${#temporals.format(dto.updatedAt, 'yyyy-MM-dd')}" readonly>
+                    </div>
+                    <div class="my-4">
+                        <div class="float-end" th:with="link = ${cpageRequestDTO.getLink()}">
+                            <a th:href="|@{/cboard/clist}?${link}|" class="text-decoration-none">
+                                <button type="button" class="btn btn-secondary">목록</button>
+                            </a>
+                            <a th:href="|@{/cboard/cmodify(cno=${dto.cno})}&${link}|" class="text-decoration-none">
+                                <button type="button" class="btn btn-secondary">수정</button>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-
-    <!--댓글 부분-->
     <div class="row mt-3">
         <div class="col-md-12">
             <div class="my-4">
-                <button sec:authorize="isAuthenticated()" class="btn btn-info addReplyBtn">댓글 작성</button>
+                <button class="btn btn-info addReplyBtn">댓글 등록</button>
             </div>
             <ul class="list-group replyList">
             </ul>
@@ -75,12 +78,11 @@
             </ul>
         </div>
     </div>
-
     <div class="modal registerModal" tabindex="-1">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">댓글 작성</h5>
+                    <h5 class="modal-title">댓글</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -89,27 +91,48 @@
                         <input type="text" class="form-control replyText">
                     </div>
                     <div class="input-group mb-3">
-                        <span class="input-group-text">댓글 작성자</span>
+                        <span class="input-group-text">작성자</span>
                         <input type="text" class="form-control replyer">
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary registerBtn">댓글 등록</button>
+                    <button type="button" class="btn btn-primary registerBtn">등록</button>
                     <button type="button" class="btn btn-outline-dark closeRegisterBtn">취소</button>
                 </div>
             </div>
         </div>
     </div>
+    <div class="modal modifyModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title replyHeader"></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">댓글 내용</span>
+                        <input type="text" class="form-control modifyText">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-info modifyBtn">수정</button>
+                    <button type="button" class="btn btn-danger removeBtn">삭제</button>
+                    <button type="button" class="btn btn-outline-dark closeModifyBtn">취소</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <script src="/js/creply1.js"></script>
+    <script src="/js/creply.js"></script>
 </div>
 <script layout:fragment="script" th:inline="javascript">
-    const cno = [[${cboard.cno}]]
+    const cno = [[${dto.cno}]]
     const replyList = document.querySelector('.replyList')
-    let str = ''
+    const replyPaging = document.querySelector('.replyPaging')
 
     function printList(dtoList) {
-        str = ''
+        let str = ''
         if (dtoList && dtoList.length > 0) {
             for (const dto of dtoList) {
                 str += `<li class="list-group-item d-flex replyItem">
@@ -117,104 +140,46 @@
                       <span class="col-6" data-rno="${dto.rno}">${dto.replyText}</span>
                       <span class="col-2">${dto.replyer}</span>
                       <span class="col-2">${dto.createdAt} </span>
-
                       <button class="btn btn-outline-dark addReplyBtn" data-rno="${dto.rno}">댓글작성</button>
                       <button class="btn btn-outline-dark modifyReplyBtn" data-rno="${dto.rno}">수정</button>
                       <button class="btn btn-outline-danger deleteReplyBtn" data-rno="${dto.rno}">삭제</button>
                     </li>`
-                if (dto.children && dto.children.length > 0) {
-                    str += ` <ul> `
-                    printList(dto.children)
-                    str += ` </ul> `
-                }
             }
         }
-        return str;
+        replyList.innerHTML = str
     }
-
-    function printReplies() {
-        str = ''
-        getList(cno).then(
+    function printPages(data) {
+        let pageStr = ''
+        if (data.prev) {
+            pageStr += `<li class="page-item">
+                <a class="page-link" data-page="${data.start - 1}">Previous</a>
+            </li>`
+        }
+        for (let i = data.start; i <= data.end; i++) {
+            pageStr += `<li class="page-item ${i == data.page ? "active" : ""}">
+                <a class="page-link" data-page="${i}">${i}</a>
+            </li>`
+        }
+        if (data.next) {
+            pageStr += `<li class="page-item">
+                <a class="page-link" data-page="${data.end + 1}">Next</a>
+            </li>`
+        }
+        replyPaging.innerHTML = pageStr
+    }
+    function printReplies(page, size, goLast) {
+        getList(cno, page, size, goLast).then(
             data => {
-
-                replyList.innerHTML = printList(data) //목록 처리
-
+                printList(data.dtoList)
+                printPages(data)
             }
         ).catch(e => {
             console.error(e)
         })
     }
-
-    printReplies();
+    printReplies(1, 10, true)
 
     const registerModal = new bootstrap.Modal(document.querySelector(".registerModal"))
-    const registerBtn = document.querySelector(".registerBtn")
-    const replyText = document.querySelector(".replyText")
-    const replyer = document.querySelector(".replyer")
-    const closeRegisterBtn = document.querySelector(".closeRegisterBtn")
-    let parentId = ''
-    document.querySelector(".addReplyBtn").addEventListener("click", function (e) {
-        registerModal.show()
-    }, false)
-
-    closeRegisterBtn.addEventListener("click", function (e) {
-        registerModal.hide()
-    }, false)
-
-    registerBtn.addEventListener("click", function (e) {
-        let replyObj = null
-        if (parentId === '') {
-            replyObj = {
-                replyText: replyText.value,
-                replyer: replyer.value
-            }
-        } else {
-            replyObj = {
-                replyText: replyText.value,
-                replyer: replyer.value,
-                parentId: parentId
-            }
-        }
-        addReply(replyObj, cno).then(result => {
-            alert(result)
-            registerModal.hide()
-            replyText.value = ''
-            replyer.value = ''
-            printReplies()
-        }).catch(e => {
-            alert("Exception...")
-        })
-    }, false)
-
-    //대댓글
-    replyList.addEventListener("click", function (e) {
-        const target = e.target;
-        const rno = target.getAttribute("data-rno");
-
-        if (target.classList.contains("addReplyBtn")) {
-            parentId = rno;
-            registerModal.show();
-        } else if (target.classList.contains("modifyReplyBtn")) {
-            const newReplyText = prompt("Enter new reply text:");
-            if (newReplyText) {
-                modifyReply({ rno, replyText: newReplyText }).then(result => {
-                    alert("Reply modified");
-                    printReplies();
-                }).catch(e => {
-                    alert("Exception...");
-                });
-            }
-        } else if (target.classList.contains("deleteReplyBtn")) {
-            if (confirm("Are you sure you want to delete this reply?")) {
-                removeReply(rno).then(result => {
-                    alert("Reply deleted");
-                    printReplies();
-                }).catch(e => {
-                    alert("Exception...");
-                });
-            }
-        }
-    }, false);
-
 </script>
+</body>
 </html>
