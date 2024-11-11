@@ -31,8 +31,6 @@ public class Cboard {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long cno;
 
-    @Column(nullable = false)
-    private String userId; // 작성자
 
     @Column(nullable = false)
     private String title;
@@ -40,10 +38,13 @@ public class Cboard {
     @Column(nullable = false, length = 1000)
     private String content;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @Column(nullable = false)
+    private String writer;
+
+   /* @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "uno", nullable = false)
     private User user;
-
+*/
     //image
     @OneToMany(mappedBy = "cboard", cascade = {CascadeType.ALL}, orphanRemoval = true)
     @Builder.Default

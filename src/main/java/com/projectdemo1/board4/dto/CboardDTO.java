@@ -1,6 +1,7 @@
 package com.projectdemo1.board4.dto;
 
 
+import com.projectdemo1.domain.User;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
@@ -24,7 +25,7 @@ public class CboardDTO {
     @NotEmpty
     private String content;
     @NotEmpty
-    private String userId; //작성자
+    private String writer; //작성자
 
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;

@@ -33,6 +33,7 @@ public class CboardServiceImpl implements CboardService{
 
     @Override
     public Long register(CboardDTO cboardDTO) {
+
         Cboard cboard = dtoToEntity(cboardDTO);
         Long cno = cboardRepository.save(cboard).getCno();
         return cno;

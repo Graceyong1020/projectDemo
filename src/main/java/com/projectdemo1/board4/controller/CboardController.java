@@ -65,13 +65,17 @@ public class CboardController {
 
     @PostMapping("/cregister")
     public String registerPOST(CuploadFileDTO cuploadFileDTO, CboardDTO cboardDTO,
-                               BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+                               BindingResult bindingResult, RedirectAttributes redirectAttributes,
+                               @AuthenticationPrincipal PrincipalDetails principalDetails) {
         List<String> strFileNames = null;
         if (cuploadFileDTO.getFiles() != null && !cuploadFileDTO.getFiles().get(0).getOriginalFilename().equals("")) {
             strFileNames = fileUpload(cuploadFileDTO);
             log.info(strFileNames.size());
         }
         cboardDTO.setFileNames(strFileNames);
+
+        // Set the uno field from the authenticated user
+        cboardDTO.setCno(principalDetails.getUser().getUno());
 
         log.info("cboard POST register..........");
         log.info((cboardDTO));
@@ -113,6 +117,7 @@ public class CboardController {
             redirectAttributes.addAttribute("cno", cboardDTO.getCno());
             return "redirect:/cboard/cmodify?" + link;
         }
+
         cboardService.modify(cboardDTO);
         redirectAttributes.addFlashAttribute("result", "modified");
         redirectAttributes.addAttribute("cno", cboardDTO.getCno());

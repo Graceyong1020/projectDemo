@@ -4,71 +4,96 @@
       layout:decorate="~{layout/basic.html}">
 <head>
     <title>게시글 목록</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .table thead th {
+            background-color: #f8f9fa;
+        }
+        .table tbody tr:hover {
+            background-color: #f1f1f1;
+        }
+        .card-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        .pagination .page-item.active .page-link {
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+        .pagination .page-link {
+            color: #007bff;
+        }
+    </style>
 </head>
 <body>
-<div layout:fragment="content">
-    <div class="row mt-3">
-        <form action="/cboard/clist" method="get">
-            <div class="col">
+<div layout:fragment="content" class="container mt-5">
+    <div class="row mb-3">
+        <div class="col">
+            <form action="/cboard/clist" method="get" class="form-inline">
                 <input type="hidden" name="size" th:value="${cpageRequestDTO.size}">
                 <div class="input-group">
-                    <div class="input-group-prepend">
-                        <select class="form-select" name="type">
-                            <option value="">-----</option>
-                            <option value="t" th:selected="${cpageRequestDTO.type == 't'}">제목</option>
-                            <option value="c" th:selected="${cpageRequestDTO.type == 'c'}">내용</option>
-                            <option value="w" th:selected="${cpageRequestDTO.type == 'w'}">작성자</option>
-                            <option value="tc" th:selected="${cpageRequestDTO.type == 'tc'}">제목+내용</option>
-                            <option value="tcw" th:selected="${cpageRequestDTO.type == 'tcw'}">제목+내용+작성자</option>
-                        </select>
-                    </div>
-                    <input type="text" class="form-control" name="keyword" th:value="${cpageRequestDTO.keyword}">
+                    <select class="form-select mr-2" name="type">
+                        <option value="">-----</option>
+                        <option value="t" th:selected="${cpageRequestDTO.type == 't'}">제목</option>
+                        <option value="c" th:selected="${cpageRequestDTO.type == 'c'}">내용</option>
+                        <option value="w" th:selected="${cpageRequestDTO.type == 'w'}">작성자</option>
+                        <option value="tc" th:selected="${cpageRequestDTO.type == 'tc'}">제목+내용</option>
+                        <option value="tcw" th:selected="${cpageRequestDTO.type == 'tcw'}">제목+내용+작성자</option>
+                    </select>
+                    <input type="text" class="form-control mr-2" name="keyword" th:value="${cpageRequestDTO.keyword}">
                     <div class="input-group-append">
-                        <button type="submit" class="btn btn-outline-secondary searchBtn">검색</button>
+                        <button type="submit" class="btn btn-outline-secondary mr-2 searchBtn">검색</button>
                         <button type="button" class="btn btn-outline-secondary clearBtn">목록</button>
                     </div>
                 </div>
-            </div>
-        </form>
+            </form>
+        </div>
     </div>
-    <div class="row mt-3">
+    <div class="row mb-3">
         <div class="col">
-            <div class="card-body">
-                <h5 class="card-title">게시글 목록</h5>
-                <table class="table">
-                    <thead>
-                    <tr>
-                        <th scope="col">번호</th>
-                        <th scope="col">제목</th>
-                        <th scope="col">작성자</th>
-                        <th scope="col">작성일</th>
-                    </tr>
-                    </thead>
-                    <tbody th:with="link=${cpageRequestDTO.getLink()}">
-                    <tr th:each="dto : ${cresponseDTO.dtoList}">
-                        <th scope="row">[[${dto.cno}]]</th>
-                        <td>
-                            <a th:href="|@{/cboard/cread(cno=${dto.cno})}&${link}|">[[${dto.title}]]</a>
-                        </td>
-                        <td>[[${dto.userId}]]</td>
-                        <td>[[${#temporals.format(dto.createdAt, 'yyyy-MM-dd')}]]</td>
-                    </tr>
-                    </tbody>
-                </table>
-                <div class="float-end">
-                    <ul class="pagination flex-wrap">
-                        <li class="page-item" th:if="${cresponseDTO.prev}">
-                            <a class="page-link" th:data-num="${cresponseDTO.start - 1}">Previous</a>
-                        </li>
-                        <th:block th:each="i : ${#numbers.sequence(cresponseDTO.start, cresponseDTO.end)}">
-                            <li th:class="${cresponseDTO.page == i} ? 'page-item active' : 'page-item'">
-                                <a class="page-link" th:data-num="${i}">[[${i}]]</a>
+            <a th:href="@{/cboard/cregister}" class="btn btn-primary mb-3">글쓰기</a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">게시글 목록</h5>
+                    <table class="table table-hover">
+                        <thead>
+                        <tr>
+                            <th scope="col">번호</th>
+                            <th scope="col">제목</th>
+                            <th scope="col">작성자</th>
+                            <th scope="col">작성일</th>
+                        </tr>
+                        </thead>
+                        <tbody th:with="link=${cpageRequestDTO.getLink()}">
+                        <tr th:each="dto : ${cresponseDTO.dtoList}">
+                            <th scope="row">[[${dto.cno}]]</th>
+                            <td>
+                                <a th:href="|@{/cboard/cread(cno=${dto.cno})}&${link}|">[[${dto.title}]]</a>
+                            </td>
+                            <td>[[${dto.writer}]]</td>
+                            <td>[[${#temporals.format(dto.createdAt, 'yyyy-MM-dd')}]]</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <div class="d-flex justify-content-end">
+                        <ul class="pagination">
+                            <li class="page-item" th:if="${cresponseDTO.prev}">
+                                <a class="page-link" th:data-num="${cresponseDTO.start - 1}">Previous</a>
                             </li>
-                        </th:block>
-                        <li class="page-item" th:if="${cresponseDTO.next}">
-                            <a class="page-link" th:data-num="${cresponseDTO.end + 1}">Next</a>
-                        </li>
-                    </ul>
+                            <th:block th:each="i : ${#numbers.sequence(cresponseDTO.start, cresponseDTO.end)}">
+                                <li th:class="${cresponseDTO.page == i} ? 'page-item active' : 'page-item'">
+                                    <a class="page-link" th:data-num="${i}">[[${i}]]</a>
+                                </li>
+                            </th:block>
+                            <li class="page-item" th:if="${cresponseDTO.next}">
+                                <a class="page-link" th:data-num="${cresponseDTO.end + 1}">Next</a>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
