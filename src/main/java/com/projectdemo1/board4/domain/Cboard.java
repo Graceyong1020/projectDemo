@@ -75,10 +75,17 @@ public class Cboard {
     private LocalDateTime updatedAt;
 
 
+//빌드 오류 나서 수정
+//    @ColumnDefault("0")
+//    private Long hitCount = 0L;
+//    @ColumnDefault("0")
+//    private Long replyCount = 0L;
 
-    @ColumnDefault("0")
+
+    @Builder.Default
     private Long hitCount = 0L;
-    @ColumnDefault("0")
+
+    @Builder.Default
     private Long replyCount = 0L;
 
     public void incrementReplyCount() {

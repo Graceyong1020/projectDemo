@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/basic.html}">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>연락처 정보</title>
+  <link rel="stylesheet" href="../../static/css/write2.css">
+</head>
+<body>
+<header class="header">
+  <span style="font-size: 2rem; display: inline;"> 여기서</span>
+  <h1 style="display: inline; font-size: 5rem;">찾개냥</h1>
+  <!-- 작은 텍스트 추가 -->
+  <nav class="nav justify-content-end mt-3">
+
+    <a class="nav-link text-black" href="../signup.html">SIGN UP</a>
+    <a class="nav-link text-black" href="../login.html">LOGIN</a>
+    <a class="nav-link text-black" href="../home1.html">HOME</a>
+  </nav>
+</header>
+<main>
+  <h2>반려동물을 찾아요</h2>
+    <form action="/board/register" method="post" enctype="multipart/form-data">
+    <div class="form-group">
+      <label for="name">이름*:</label>
+      <input type="text" id="name" name="name" required>
+    </div>
+    <div class="form-group">
+      <label for="email">이메일*:</label>
+      <input type="email" id="email" name="email" required>
+    </div>
+    <div class="form-group">
+      <label for="phone">전화번호:</label>
+      <input type="tel" id="phone" name="phone">
+    </div>
+    <div class="form-buttons">
+      <button type="reset">리셋</button>
+      <button type="submit">다음</button>
+    </div>
+  </form>
+</main>
+<script layout:fragment="script" th:inline="javascript">
+
+  const errors = [[${errors}]]
+  console.log(errors)
+
+  let errorMsg = ''
+
+  if(errors){
+    for (let i = 0; i < errors.length; i++) {
+      errorMsg += `${errors[i].field}은(는) ${errors[i].code} \n`
+    }
+    alert(errorMsg)
+  }
+
+</script>
+
+<footer>
+  <p>© 2024 찾개냥. .All rights reserved.</p>
+</footer>
+</body>
+</html>

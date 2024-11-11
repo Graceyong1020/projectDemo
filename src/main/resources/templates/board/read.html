@@ -3,110 +3,222 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6"
       layout:decorate="~{layout/basic.html}">
+<head>
+    <title>[[${dto.title}]] 상세보기</title>
+    <style>
+        /* 테이블 스타일 */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
 
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #a3a2a2; /* 연한 회색 배경 */
+        }
+
+        /* 추가로, 테이블에 가로 너비를 고정하고, 필요한 경우 반응형 처리 */
+        table {
+            table-layout: fixed;
+            width: 100%;
+        }
+
+    </style>
+</head>
+<body>
 <div layout:fragment="content">
     <div class="container mt-3">
-        <h3>Board View</h3>
+        <h3>[[${dto.bno}]]. <b>[[${dto.title}]]</b> 상세보기</h3>
+        <p style="color: dimgray; text-align: right;">
+            등록일 <b>[[${T(java.time.format.DateTimeFormatter).ofPattern('yyyy년 MM월 dd일').format(dto.createdAt)}]]</b>
+        </p>
+        <p style="color: dimgray; text-align: right;"> 조회수 [[${dto.hitCount}]]</p>
+        <p style="color: dimgray; text-align: right;"> 상태 [[${dto.status}]]</p>
         <br/>
-        <div class="form-group">
-            <label for="num">글번호:</label>
-            <input type="text" class="form-control" id="num" name="num" th:value="${dto.bno}" readonly="readonly">
-        </div>
-        <div class="form-group">
-            <label for="title">제목:</label>
-            <input type="text" class="form-control" id="title" name="title" th:value="${dto.title}" readonly="readonly">
-        </div>
+
         <div class="form-group">
             <label for="writer">글쓴이:</label>
             <input type="text" class="form-control" id="writer" name="writer" th:value="${dto.writer}"
                    readonly="readonly">
         </div>
-        <div class="form-group">
-            <label for="content">내용:</label>
-            <textarea name="content" id="content" class="form-control" readonly="readonly">[[${dto.content}]]</textarea>
-        </div>
-        <div class="form-group">
-            <label for="createdAt">등록일:</label>
-            <input type="text" class="form-control" id="createdAt" name="createdAt" th:value="${dto.createdAt}"
-                   readonly="readonly">
-        </div>
-        <div class="form-group">
-            <label for="hitCount">조회수:</label>
-            <input type="text" class="form-control" id="hitCount" name="hitCount" th:value="${dto.hitCount}"
-                   readonly="readonly">
-        </div>
-        <div class="form-group">
-            <label for="replyCount">댓글 수:</label>
-            <input type="text" class="form-control" id="replyCount" name="replyCount" th:value="${dto.replyCount}"
-                   readonly="readonly">
-        </div>
-        <div class="form-group mt-5">
 
-          <span sec:authorize="isAuthenticated()" th:if="${#authentication.principal.username==dto.getWriter()}">
-            <a th:href="|@{/board/modify(num=${dto.bno})}|">
-                <button type="button" id="btnUpdate" class="btn btn-secondary">수정</button>
-            </a>
-              <!--<a th:href="|@{/board/remove(num=${dto.bno})}|">
-                  <button type="button" id="btnDelete" class="btn btn-danger">삭제</button>
-              </a>-->
-              <form th:action="|@{/board/remove}|"
-                    method="post"
-                    onsubmit="return confirm('정말로 삭제하시겠습니까?')">
-    <input type="hidden" name="bno" th:value="${dto.bno}"/>
-    <button type="submit" class="btn btn-danger">삭제</button>
-</form>
-          </span>
-            <a th:href="|@{/board/list}|">
-                <button type="button" id="btnList" class="btn btn-info">List</button>
-            </a>
-        </div>
-    </div>
 
-    <!--    댓글 영역-->
-    <div class="row mt-3">
-        <div class="col-md-12">
-            <div class="my-4 ">
-                <button sec:authorize="isAuthenticated()" class="btn btn-info  addCommentBtn">ADD Comment</button>
+        <h4>분실 신고자 정보</h4>  <!--게시글 타입에 따라 주인 찾기라면 이부분 제공 하지 않기-->
+        <table class="table detail-table mt-0 mb-30">
+            <caption>분실신고자 정보로 연락처를 안내하고 있습니다.</caption>
+            <colgroup>
+                <col style="width: 500px">
+                <col style="width: 160px">
+                <col style="width: 500px">
+                <col style="width: 160px">
+            </colgroup>
+            <tbody>
+            <tr>
+                <th scope="row" class="first">신고자</th>
+                <td class="text-left">
+                    [[${dto.user.nickname}]]
+                </td>
+                <th scope="row">연락처</th>
+                <td class="text-left last">
+                    [[${dto.user.mobile}]]
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <h4>분실장소 및 날짜</h4> <!--타입에 따라 분실, 발견 이름 바꾸기-->
+        <table class="table detail-table mt-0 mb-30">
+            <caption>분실일시 및 장소 정보로 분실날짜, 분실장소, 주위의 특징적 건물, 관할지를 안내하고 있습니다.</caption>
+            <colgroup>
+                <col style="width: 160px">
+                <col style="width: 1460px">
+            </colgroup>
+            <tbody>
+            <tr>
+                <th scope="row" class="first">분실날짜</th>
+                <td class="text-left last">[[${dto.lostDate}]]</td>
+            </tr>
+            <tr>
+                <th scope="row" class="first">분실장소</th>
+                <td class="text-left last">[[${dto.lostLocation}]]</td>
+            </tr>
+            </tbody>
+        </table>
+        <h4>분실동물 정보</h4>
+        <table class="table detail-table mt-0 mb-30">
+            <caption>분실동물 정보로 품종, 성별, 특징, 몸무게, 털색상, 길이, 나이, 발견장소를 안내하고있습니다.</caption>
+            <colgroup>
+                <col style="width: 17%">
+                <col style="width: 23%">
+                <col style="width: 17%">
+                <col style="width: 23%">
+                <col style="width: 17%">
+                <col style="width: 23%">
+            </colgroup>
+            <tbody>
+            <tr>
+                <th scope="row" class="first">품종</th>
+                <td class="text-left">[[${dto.petBreeds}]]</td>
+                <th scope="row">털 색상</th>
+                <td class="text-left last">[[${dto.petColor.color}]]</td>
+                <th scope="row">이름</th>
+                <td class="text-left last">[[${dto.petName}]]</td>
+            </tr>
+            <tr>
+                <th scope="row" class="first">성별</th>
+                <td class="text-left">[[${dto.petGender}]]</td>
+                <th scope="row">나이</th>
+                <td class="text-left last">[[${dto.petAge}]]</td>
+            </tr>
+            <tr>
+                <th scope="row" class="first">특징(구체적 묘사)</th>
+                <td class="text-left last" colspan="3">[[${dto.petDescription}]]</td>
+                <th scope="row" class="first">몸무게</th>
+                <td class="text-left last" colspan="3">[[${dto.petWeight}]]kg</td>
+            </tr>
+            <tr>
+                <th scope="row" class="first">잃어버린 장소</th> <!--타입에 따라 용어-->
+                <td class="text-left last" colspan="3">[[${dto.lostLocation}]]</td>
+            </tr>
+            </tbody>
+        </table>
+            <div id="map" style="width:500px;height:400px;"></div>
+            <script type="text/javascript"
+                    src="//dapi.kakao.com/v2/maps/sdk.js?appkey=41caa1d7d9b7baa2f49d25f886b4dc1f"></script>
+            <script type="text/javascript"
+                    src="//dapi.kakao.com/v2/maps/sdk.js?appkey=APIKEY&libraries=LIBRARY"></script>
+            <script type="text/javascript"
+                    src="//dapi.kakao.com/v2/maps/sdk.js?appkey=APIKEY&libraries=services"></script>
+
+            <script>
+                var container = document.getElementById('map');
+                var options = {
+                    center: new kakao.maps.LatLng(33.450701, 126.570667),
+                    level: 3
+                };
+
+                var map = new kakao.maps.Map(container, options);
+            </script>
+            <script>
+                var places = new kakao.maps.services.Places();
+
+                var callback = function (result, status) {
+                    if (status === kakao.maps.services.Status.OK) {
+                        console.log(result);
+                    }
+                };
+
+                places.keywordSearch('dto.lostLocation', callback);
+            </script>
+
+            <div class="form-group">
+                <p for="replyCount">댓글 수: [[${dto.bno}]]</p>
             </div>
-            <ul class="list-group commentList">
-                댓글 리스트 영역
-            </ul>
-        </div>
-    </div>
-    <div class="row mt-3">
-        <div class="col">
-            <ul class="pagination commentPaging">
-            </ul>
-        </div>
-    </div>
-
-    <div class="modal registerModal" tabindex="-1">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Register Replyer</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <div class="form-group d-flex justify-content-end" style="margin-left: 5px;">
+                <div sec:authorize="isAuthenticated()" th:if="${#authentication.principal.username==dto.getWriter()}"
+                     class="d-flex">
+                    <a th:href="|@{/board/modify(bno=${dto.bno})}|">
+                        <button type="button" id="btnUpdate" class="btn btn-secondary mr-2">수정</button>
+                    </a>
+                    <form th:action="|@{/board/remove}|" method="post" onsubmit="return confirm('정말로 삭제하시겠습니까?')">
+                        <input type="hidden" name="bno" th:value="${dto.bno}"/>
+                        <button type="submit" class="btn btn-danger">삭제</button>
+                    </form>
                 </div>
-                <div class="modal-body">
-                    <div class="input-group mb-3">
-                        <span class="input-group-text">Reply Text</span>
-                        <input type="text" class="form-control replyText">
+                <a th:href="|@{/board/list}|">
+                    <button type="button" id="btnList" class="btn btn-info">목록 보기</button>
+                </a>
+            </div>
+            <!--    댓글 영역-->
+            <div class="row mt-3">
+                <div class="col-md-12">
+                    <div class="my-4 ">
+                        <button sec:authorize="isAuthenticated()" class="btn btn-info  addCommentBtn">ADD Comment
+                        </button>
                     </div>
-                    <div class="input-group mb-3">
-                        <span class="input-group-text">Replyer</span>
-                        <input type="text" class="form-control replyer">
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary registerBtn">Register</button>
-                    <button type="button" class="btn btn-outline-dark closeRegisterBtn">Close</button>
+                    <ul class="list-group commentList">
+                        댓글 리스트 영역
+                    </ul>
                 </div>
             </div>
-        </div>
-    </div>
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <script src="/js/reply.js"></script>
+            <div class="row mt-3">
+                <div class="col">
+                    <ul class="pagination commentPaging">
+                    </ul>
+                </div>
+            </div>
 
+            <div class="modal registerModal" tabindex="-1">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Register Replyer</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="input-group mb-3">
+                                <span class="input-group-text">Reply Text</span>
+                                <input type="text" class="form-control replyText">
+                            </div>
+                            <div class="input-group mb-3">
+                                <span class="input-group-text">Replyer</span>
+                                <input type="text" class="form-control replyer">
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary registerBtn">Register</button>
+                            <button type="button" class="btn btn-outline-dark closeRegisterBtn">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+            <script src="/js/reply.js"></script>
+
+    </div>
 </div>
-
+</body>
 </html>

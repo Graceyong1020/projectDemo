@@ -7,12 +7,14 @@ import com.projectdemo1.domain.boardContent.PetType;
 import com.projectdemo1.domain.boardContent.PostType;
 import com.projectdemo1.domain.boardContent.Status;
 import com.projectdemo1.domain.boardContent.color.PetColor;
+import com.projectdemo1.domain.boardContent.color.PetColorType;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
 import java.util.Date;
@@ -27,7 +29,7 @@ import java.util.Set;
 @AllArgsConstructor
 @Entity
 @Builder
-@ToString(exclude = {"comments", "imageSet"})
+@ToString(exclude = {"comments", "imageSet", "petColor"})
 
 public class Board {
 
@@ -46,16 +48,24 @@ public class Board {
     private String petDescription;
     private Date lostDate;
     private String lostLocation;
-    private String petBreeds;
+    private String petBreeds; //품종
     private String petGender;
     private String petAge;
     private String petWeight;
+    private String petName;
     @Enumerated(EnumType.STRING)
-    private PetType petType; //동물 종류
+    private PetType petType; //동물 종류(개, 고양이 등)
+
+
+/*    @JoinColumn(name = "petColor")
+    @Enumerated(EnumType.STRING)
+    @OneToOne(mappedBy = "board")
+    private PetColor petColor;*/
+    //private PetColorType petColor; //동물 색상
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "petColor")
-    private PetColor petColor; //동물 색상
+    @JoinColumn(name = "petColorId") // 컬럼명 설정
+    private PetColor petColor;
 
     private String writer;
     private String content; // board3 content
@@ -66,6 +76,7 @@ public class Board {
     @CreationTimestamp
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name="createdAt")
+    @DateTimeFormat(pattern = "yyyy년 MM월 dd일")
     private LocalDateTime createdAt;
 
     @UpdateTimestamp

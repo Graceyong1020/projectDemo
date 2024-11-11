@@ -23,7 +23,27 @@
                     <input type="text" class="form-control" name="writer" readonly placeholder="Writer"
                            th:value="${#authentication.principal.username}">
                 </div>
-
+                <div class="form-group">
+                    <label for="petColor">동물 색상:</label>
+                    <select id="petColor" name="petColorType" class="form-control">
+                        <option th:each="color : ${T(com.projectdemo1.domain.boardContent.color.PetColorType).values()}"
+                                th:value="${color.name()}"
+                                th:text="#{${'enum.petcolor.' + color.name()}}">색상</option>
+                    </select>
+                </div>
+                <!--<div class="form-group">
+               <label for="petColor">동물 색상</label>
+                <select name="petColor" id="petColor">
+                    <option value="BLACK">검정</option>
+                    <option value="WHITE">흰색</option>
+                    <option value="GRAY">회색</option>
+                    <option value="CREME">크림</option>
+                    <option value="CHOCOLATE">초콜릿</option>
+                    <option value="GOLDEN">금색</option>
+                    <option value="MIXED">혼합색</option>
+                    <option value="OTHER">기타</option>
+                </select>
+                </div>-->
                 <div class="input-group mb-3">
                     <span class="input-group-text">FileUpload</span>
                     <input type="file" class="form-control" name="files">
@@ -33,9 +53,7 @@
                     <button type="submit" class="btn btn-primary">Submit</button>
                     <button type="reset" class="btn btn-secondary">Reset</button>
                 </div>
-
             </form>
-
         </div>
     </div>
 </div>

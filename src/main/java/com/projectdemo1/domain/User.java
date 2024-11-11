@@ -2,15 +2,17 @@ package com.projectdemo1.domain;
 
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Getter
+@Setter
+@Builder
 public class User {
+    public static String getMobile;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long uno;
@@ -19,4 +21,6 @@ public class User {
     private String password;
     private String email;
     private String role;
+    private String mobile;
+    private String nickname;
 }

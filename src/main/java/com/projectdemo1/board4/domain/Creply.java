@@ -15,7 +15,7 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString(exclude = "board")
+@ToString(exclude = "cboard")
 @Entity
 @Table(name = "community_reply", indexes = {@Index(name = "idx_cboard_cno", columnList = "cno")})
 public class Creply {
