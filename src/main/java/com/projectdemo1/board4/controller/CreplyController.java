@@ -35,6 +35,9 @@ public class CreplyController {
         if(bindingResult.hasErrors()) {
             throw new BindException(bindingResult);
         }
+        if (creplyDTO.getCno()==null) {
+            throw new IllegalArgumentException("Cno is null");
+        }
 
         Map<String, Long> resultMap = new HashMap<>();
         Long rno = creplyService.register(creplyDTO);

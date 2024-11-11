@@ -98,6 +98,22 @@ public class BoardController {
         return "redirect:/board/list";
     }
 
+    @GetMapping("/register1")
+    public String register1() {
+        return "board/register1";
+    }
+
+    @PostMapping("/register1")
+    public String register1(@Valid @ModelAttribute Board board,
+                            @RequestParam PetColorType petColorType,  // PetColorType as a request parameter
+                            PrincipalDetails principal) {
+        PetColor petColor = new PetColor(petColorType);  // Create PetColor object using PetColorType
+        board.setPetColor(petColor);
+        boardService.register(board, principal.getUser());
+
+        return "redirect:/board/list";
+    }
+
     @InitBinder
     public void initBinder(WebDataBinder binder) {
         binder.registerCustomEditor(PetColor.class, new PropertyEditorSupport() {

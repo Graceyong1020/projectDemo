@@ -127,12 +127,17 @@
     <script src="/js/creply.js"></script>
 </div>
 <script layout:fragment="script" th:inline="javascript">
-    const cno = [[${dto.cno}]]
-    const replyList = document.querySelector('.replyList')
-    const replyPaging = document.querySelector('.replyPaging')
+    const cno = `[[${dto.cno}]]`;
+    if (!cno) {
+        console.error("cno is not defined");
+        alert("게시글 번호가 없습니다.");
+    }
+
+    const replyList = document.querySelector('.replyList');
+    const replyPaging = document.querySelector('.replyPaging');
 
     function printList(dtoList) {
-        let str = ''
+        let str = '';
         if (dtoList && dtoList.length > 0) {
             for (const dto of dtoList) {
                 str += `<li class="list-group-item d-flex replyItem">
@@ -140,171 +145,168 @@
                       <span class="col-6" data-rno="${dto.rno}">${dto.replyText}</span>
                       <span class="col-2">${dto.replyer}</span>
                       <span class="col-2">${dto.createdAt} </span>
-                    </li>`
+                    </li>`;
             }
         }
-        replyList.innerHTML = str
+        replyList.innerHTML = str;
     }
+
     function printPages(data) {
-        let pageStr = ''
+        let pageStr = '';
         if (data.prev) {
             pageStr += `<li class="page-item">
                 <a class="page-link" data-page="${data.start - 1}">Previous</a>
-            </li>`
+            </li>`;
         }
         for (let i = data.start; i <= data.end; i++) {
             pageStr += `<li class="page-item ${i == data.page ? "active" : ""}">
                 <a class="page-link" data-page="${i}">${i}</a>
-            </li>`
+            </li>`;
         }
         if (data.next) {
             pageStr += `<li class="page-item">
                 <a class="page-link" data-page="${data.end + 1}">Next</a>
-            </li>`
+            </li>`;
         }
-        replyPaging.innerHTML = pageStr
+        replyPaging.innerHTML = pageStr;
     }
+
     function printReplies(page, size, goLast) {
         getList(cno, page, size, goLast).then(
             data => {
-                printList(data.dtoList)
-                printPages(data)
+                printList(data.dtoList);
+                printPages(data);
             }
         ).catch(e => {
-            console.error(e)
-        })
+            console.error(e);
+        });
     }
-    printReplies(1, 10, true)
 
-    const registerModal = new bootstrap.Modal(document.querySelector(".registerModal"))
+    printReplies(1, 10, true);
 
-    const registerBtn = document.querySelector(".registerBtn")
-    const replyText = document.querySelector(".replyText")
-    const replyer = document.querySelector(".replyer")
-    const closeRegisterBtn = document.querySelector(".closeRegisterBtn")
+    const registerModal = new bootstrap.Modal(document.querySelector(".registerModal"));
+
+    const registerBtn = document.querySelector(".registerBtn");
+    const replyText = document.querySelector(".replyText");
+    const replyer = document.querySelector(".replyer");
+    const closeRegisterBtn = document.querySelector(".closeRegisterBtn");
 
     document.querySelector(".addReplyBtn").addEventListener("click", function (e){
-        registerModal.show()
-    },false)
+        registerModal.show();
+    }, false);
 
     closeRegisterBtn.addEventListener("click", function (e){
-        registerModal.hide()
-    },false)
+        registerModal.hide();
+    }, false);
 
     registerBtn.addEventListener("click", function(e){
+        if(!cno) {
+            alert("게시글 번호가 없습니다.");
+            return;
+        }
+
         const replyObj = {
-            cno:cno,
-            replyText:replyText.value,
-            replyer:replyer.value}
+            cno: parseInt(cno, 10),
+            replyText: replyText.value,
+            replyer: replyer.value
+        };
 
         addReply(replyObj).then(result => {
-            alert(result.rno)
-            registerModal.hide()
-            replyText.value = ''
-            replyer.value =''
-            printReplies(1,10, true) //댓글 목록 갱신
+            alert(result.rno);
+            registerModal.hide();
+            replyText.value = '';
+            replyer.value = '';
+            printReplies(1, 10, true); // Refresh the comment list
         }).catch(e => {
-            alert("Exception...")
-        })
-    }, false)
+            alert("Exception...");
+        });
+    }, false);
 
-    let page = 1
-    let size = 10
+    let page = 1;
+    let size = 10;
 
     replyPaging.addEventListener("click", function (e){
-        e.preventDefault()
-        e.stopPropagation()
+        e.preventDefault();
+        e.stopPropagation();
 
-        const target = e.target
+        const target = e.target;
 
         if(!target || target.tagName != 'A'){
-            return
+            return;
         }
 
-        const pageNum = target.getAttribute("data-page")
-        page = pageNum
-        printReplies(page, size)
+        const pageNum = target.getAttribute("data-page");
+        page = pageNum;
+        printReplies(page, size);
 
-    },false)
+    }, false);
 
     //modifyModal
-    const modifyModal = new bootstrap.Modal(document.querySelector(".modifyModal"))
+    const modifyModal = new bootstrap.Modal(document.querySelector(".modifyModal"));
 
-    const replyHeader = document.querySelector(".replyHeader")
-    const modifyText = document.querySelector(".modifyText")
-    const modifyBtn = document.querySelector(".modifyBtn")
-    const removeBtn = document.querySelector(".removeBtn")
-    const closeModifyBtn = document.querySelector(".closeModifyBtn")
-
+    const replyHeader = document.querySelector(".replyHeader");
+    const modifyText = document.querySelector(".modifyText");
+    const modifyBtn = document.querySelector(".modifyBtn");
+    const removeBtn = document.querySelector(".removeBtn");
+    const closeModifyBtn = document.querySelector(".closeModifyBtn");
 
     replyList.addEventListener("click", function (e){
-        e.preventDefault()
-        e.stopPropagation()
+        e.preventDefault();
+        e.stopPropagation();
 
-        const target = e.target
+        const target = e.target;
 
         if(!target || target.tagName != 'SPAN'){
-            return
+            return;
         }
 
-        const rno = target.getAttribute("data-rno")
+        const rno = target.getAttribute("data-rno");
 
         if(!rno){
-            return
+            return;
         }
 
-        getReply(rno).then(reply => { //댓글의 내용을 모달창에 채워서 보여주는
+        getReply(rno).then(reply => { // Fill the modal with the reply content
+            console.log(reply);
+            replyHeader.innerHTML = reply.rno;
+            modifyText.value = reply.replyText;
+            modifyModal.show();
+        }).catch(e => alert('error'));
 
-            console.log(reply)
-            replyHeader.innerHTML = reply.rno
-            modifyText.value = reply.replyText
-            modifyModal.show()
-
-        }).catch(e => alert('error'))
-
-    },false)
+    }, false);
 
     modifyBtn.addEventListener("click", function(e) {
-
         const replyObj = {
-            cno:cno,
-            rno:replyHeader.innerHTML,
-            replyText:modifyText.value}
+            cno: cno,
+            rno: replyHeader.innerHTML,
+            replyText: modifyText.value
+        };
 
         modifyReply(replyObj).then(result => {
-            alert(result.rno+' 댓글이 수정되었습니다.')
-            replyText.value = ''
-            modifyModal.hide()
-            printReplies(page, size)
-
+            alert(result.rno + ' 댓글이 수정되었습니다.');
+            replyText.value = '';
+            modifyModal.hide();
+            printReplies(page, size);
         }).catch(e => {
-            console.log(e)
-        })
-    },false)
+            console.log(e);
+        });
+    }, false);
 
     closeModifyBtn.addEventListener("click", function(e){
-
-        modifyModal.hide()
-
-    }, false)
+        modifyModal.hide();
+    }, false);
 
     removeBtn.addEventListener("click", function(e) {
-
         removeReply(replyHeader.innerHTML).then(result => {
-
-            alert(result.rno +' 댓글이 삭제되었습니다.')
-            replyText.value = ''
-            modifyModal.hide()
-
-            page = 1 // 이 부분이 없다면 원래 페이지로
-
-            printReplies(page, size)
-
+            alert(result.rno + ' 댓글이 삭제되었습니다.');
+            replyText.value = '';
+            modifyModal.hide();
+            page = 1; // Reset to the first page
+            printReplies(page, size);
         }).catch(e => {
-            console.log(e)
-        })
-    },false)
-
+            console.log(e);
+        });
+    }, false);
 </script>
 </body>
 </html>

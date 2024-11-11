@@ -24,7 +24,7 @@
 
                 <div class="input-group mb-3">
                     <span class="input-group-text">Writer</span>
-                    <input type="text" class="form-control" name="writer" placeholder="Writer">
+                    <input type="text" class="form-control" name="writer"  th:value="${#authentication.principal.username}">
                 </div>
 
                 <div class="input-group mb-3">
