@@ -3,9 +3,55 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout/basic.html}">
 
+<head>
+    <link rel="stylesheet" th:href="@{/css/home.css}">
+</head>
+
 <div layout:fragment="content">
     <div class="container">
-        <h3>Home page</h3>
-        <img src="/images/abc.png">
+        <div class="banner">
+            <img src="/images/banner.PNG" alt="Banner Image">
+        </div>
+        <div class="row mt-4"> <!-- Added margin-top class -->
+            <div class="col-md-3">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Find my Pets</h5>
+                        <p class="card-text">펫찾기 게시글 작성</p>
+                        <a href="/write1.html" class="btn btn-primary">Find My Pets</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Find my Owners</h5>
+                        <p class="card-text">주인찾기 게시글 작성</p>
+                        <a href="/write2.html" class="btn btn-primary">Find My Owners</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">신고글 보기</h5>
+                        <p class="card-text">신고글 작성 보기</p>
+                        <a href="/list.html" class="btn btn-primary">신고글 보기</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">커뮤니티 게시판</h5>
+                        <p class="card-text">커뮤니티 게시판 보기</p>
+                        <a href="/cboard/clist" class="btn btn-primary">커뮤니티 게시판</a>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
+
+<script th:src="@{/js/scripts.js}"></script>
+</html>
