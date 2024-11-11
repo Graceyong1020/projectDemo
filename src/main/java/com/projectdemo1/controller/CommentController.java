@@ -101,7 +101,7 @@ public class CommentController {
 
     @ApiOperation(value = "Modify Comment", notes ="PUT 방식으로 특정 댓글 수정")
     @PutMapping(value = "/{rno}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public Map<String, Long> remove (@PathVariable("rno") Long rno, @RequestBody CommentDTO commentDTO) {
+    public Map<String, Long> modify (@PathVariable("rno") Long rno, @RequestBody CommentDTO commentDTO) { //remove -> modify로 수정
         commentDTO.setRno(rno); //번호를 일치시킴
 
         commentService.modify(commentDTO);

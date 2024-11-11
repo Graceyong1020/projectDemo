@@ -11,9 +11,9 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 public interface CreplyRepository extends JpaRepository<Creply, Long> {
-    @Query("select r from Creply r where r.cboard.cno = :rno")
-    Page<Creply> listOfCboard(Long rno, Pageable pageable);
+    @Query("select r from Creply r where r.cboard.cno = :cno")
+    Page<Creply> listOfCboard(Long cno, Pageable pageable);
 
-    void deleteByCboardCno(Long rno);
+    void deleteByCboardCno(Long cno);
 
 }

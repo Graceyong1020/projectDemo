@@ -1,0 +1,42 @@
+async function get1(bno) {
+
+    const result = await axios.get(`/comments/list/${bno}`)
+    //console.log(result)
+    return result;
+}
+
+async function getList({bno, page, size, goLast}){
+
+    const result = await axios.get(`/comments/list/${bno}`, {params: {page, size}})
+
+    if(goLast){
+        const total = result.data.total
+        const lastPage = parseInt(Math.ceil(total/size))
+
+        return getList({bno:bno, page:lastPage, size:size})
+
+    }
+
+    return result.data
+}
+
+async function addReply(replyObj) {
+    const response = await axios.post(`/comments/`,replyObj)
+    return response.data
+}
+
+async function getReply(rno) {
+    const response = await axios.get(`/comments/${rno}`)
+    return response.data
+}
+
+async function modifyReply(replyObj) {
+
+    const response = await axios.put(`/comments/${replyObj.rno}`, replyObj)
+    return response.data
+}
+
+async function removeReply(rno) {
+    const response = await axios.delete(`/comments/${rno}`)
+    return response.data
+}

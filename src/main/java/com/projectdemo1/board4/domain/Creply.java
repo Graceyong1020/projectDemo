@@ -27,7 +27,7 @@ public class Creply {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cno", nullable = false)
-    @JsonIgnore
+  /*  @JsonIgnore*/
     private Cboard cboard;
 
     @CreationTimestamp

@@ -46,6 +46,7 @@ public class Board {
 
     //board1,2 content
     private String petDescription;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date lostDate;
     private String lostLocation;
     private String petBreeds; //품종

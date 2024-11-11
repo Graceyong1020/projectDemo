@@ -21,8 +21,13 @@ async function getList({cno, page, size, goLast}){
 }
 
 async function addReply(replyObj) {
-    const response = await axios.post(`/creplies/`,replyObj)
-    return response.data
+    try {
+        const response = await axios.post(`/creplies/`, replyObj);
+        return response.data;
+    } catch (error) {
+        console.error('Error adding reply:', error.response ? error.response.data : error.message);
+        throw error;
+    }
 }
 
 async function getReply(rno) {
