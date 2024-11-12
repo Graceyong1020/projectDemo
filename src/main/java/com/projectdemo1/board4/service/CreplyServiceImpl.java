@@ -29,11 +29,19 @@ import java.util.stream.Collectors;
 public class CreplyServiceImpl implements CreplyService{
 
     private final CreplyRepository creplyRepository;
+    private final CboardRepository cboardRepository;
     private final ModelMapper modelMapper;
 
     @Override
     public Long register(CreplyDTO creplyDTO) {
-        Creply creply = modelMapper.map(creplyDTO, Creply.class);
+        Creply creply = Creply.builder()
+                .replyText(creplyDTO.getReplyText())
+                .replyer(creplyDTO.getReplyer())
+                .build();
+        Cboard cboard = cboardRepository.getOne(creplyDTO.getCno());
+        creply.setCboard(cboard);
+
+        //Creply creply = modelMapper.map(creplyDTO, Creply.class);
         creplyRepository.save(creply);
         return creply.getRno();
     }

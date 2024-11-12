@@ -30,7 +30,7 @@ public class CreplyController {
     public Map<String, Long> register(
             @Valid @RequestBody CreplyDTO creplyDTO, BindingResult bindingResult) throws BindException {
 
-        log.info(creplyDTO);
+        log.info("check" + creplyDTO);
 
         if(bindingResult.hasErrors()) {
             throw new BindException(bindingResult);

@@ -6,6 +6,7 @@ async function get1(cno) {
 }
 
 async function getList({cno, page, size, goLast}){
+    console.log("cno: " + cno + page+size)
 
     const result = await axios.get(`/creplies/clist/${cno}`, {params: {page, size}})
 

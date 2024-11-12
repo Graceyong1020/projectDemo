@@ -172,7 +172,8 @@
     }
 
     function printReplies(page, size, goLast) {
-        getList(cno, page, size, goLast).then(
+        alert(cno)
+        getList({cno, page, size, goLast}).then(
             data => {
                 printList(data.dtoList);
                 printPages(data);
@@ -206,7 +207,7 @@
         }
 
         const replyObj = {
-            cno: parseInt(cno, 10),
+            cno: cno,
             replyText: replyText.value,
             replyer: replyer.value
         };

@@ -10,7 +10,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
+@Builder
 @Getter
 @Setter
 @AllArgsConstructor
@@ -29,6 +29,7 @@ public class Creply {
     @JoinColumn(name = "cno", nullable = false)
   /*  @JsonIgnore*/
     private Cboard cboard;
+
 
     @CreationTimestamp
     @Temporal(TemporalType.TIMESTAMP)

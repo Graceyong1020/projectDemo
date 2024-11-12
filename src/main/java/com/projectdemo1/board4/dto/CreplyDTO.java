@@ -3,6 +3,7 @@ package com.projectdemo1.board4.dto;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -11,10 +12,10 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Data
 public class CreplyDTO {
-    @NonNull
+
     private Long rno;
 
-    @NonNull
+
     private Long cno;
 
 
