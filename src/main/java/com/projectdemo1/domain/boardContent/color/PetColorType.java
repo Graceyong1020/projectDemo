@@ -19,6 +19,6 @@ public enum PetColorType {
     }
 
     public String getColor() {
-        return "";
+        return name();
     }
 }

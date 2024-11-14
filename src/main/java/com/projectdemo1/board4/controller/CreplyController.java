@@ -1,7 +1,6 @@
 package com.projectdemo1.board4.controller;
 
 
-import com.projectdemo1.board4.domain.Creply;
 import com.projectdemo1.board4.dto.CpageRequestDTO;
 import com.projectdemo1.board4.dto.CpageResponseDTO;
 import com.projectdemo1.board4.dto.CreplyDTO;
@@ -10,13 +9,11 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -32,10 +29,10 @@ public class CreplyController {
 
         log.info("check" + creplyDTO);
 
-        if(bindingResult.hasErrors()) {
+        if (bindingResult.hasErrors()) {
             throw new BindException(bindingResult);
         }
-        if (creplyDTO.getCno()==null) {
+        if (creplyDTO.getCno() == null) {
             throw new IllegalArgumentException("Cno is null");
         }
 
@@ -67,14 +64,12 @@ public class CreplyController {
 
     @PutMapping(value = "/{rno}", consumes = MediaType.APPLICATION_JSON_VALUE)
     public Map<String, Long> remove(@PathVariable("rno") Long rno, @RequestBody CreplyDTO creplyDTO) {
-       creplyDTO.setRno(rno);
-         creplyService.modify(creplyDTO);
+        creplyDTO.setRno(rno);
+        creplyService.modify(creplyDTO);
         Map<String, Long> resultMap = new HashMap<>();
         resultMap.put("rno", rno);
         return resultMap;
     }
-
-
 
 
 }

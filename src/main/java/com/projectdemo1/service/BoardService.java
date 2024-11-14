@@ -1,16 +1,10 @@
 package com.projectdemo1.service;
 
 
-import com.projectdemo1.board4.domain.Cboard;
-import com.projectdemo1.board4.dto.CboardDTO;
-import com.projectdemo1.board4.dto.CpageRequestDTO;
-import com.projectdemo1.board4.dto.CpageResponseDTO;
 import com.projectdemo1.domain.Board;
 import com.projectdemo1.domain.User;
-import com.projectdemo1.domain.boardContent.color.PetColor;
 import com.projectdemo1.domain.boardContent.color.PetColorType;
 import com.projectdemo1.dto.BoardDTO;
-import com.projectdemo1.dto.BoardListReplyCountDTO;
 import com.projectdemo1.dto.PageRequestDTO;
 import com.projectdemo1.dto.PageResponseDTO;
 
@@ -20,9 +14,10 @@ import java.util.stream.Collectors;
 public interface BoardService {
 
 void register(Board board, User user);
+Long register(BoardDTO boardDTO);
     List<Board> list();
-    Board findById(Long bno);
-    void modify(Board board);
+    BoardDTO findById(Long bno);
+    void modify(BoardDTO boardDTO);
     void remove(Long bno);
 
     PageResponseDTO<BoardDTO> list(PageRequestDTO pageRequestDTO);
@@ -48,20 +43,21 @@ void register(Board board, User user);
                 .title(board.getTitle())
                 .content(board.getContent())
                 .writer(board.getWriter())
-                .regDate(board.getCreatedAt())
                 .updatedAt(board.getUpdatedAt())
                 .postType(board.getPostType())  // 추가된 필드들
                 .hitCount(board.getHitCount())
                 .status(board.getStatus())
                 .petDescription(board.getPetDescription())
                 .lostDate(board.getLostDate())
-                .lostLocation(board.getLostLocation())
+                .location(board.getLocation())
+                .locationDetail(board.getLocationDetail())
                 .petBreeds(board.getPetBreeds())
                 .petGender(board.getPetGender())
                 .petAge(board.getPetAge())
                 .petWeight(board.getPetWeight())
                 .petType(board.getPetType())
                 .mobile(User.getMobile)
+                .user(board.getUser())
                 .build();
 
         // 파일 이름 처리
@@ -81,4 +77,6 @@ void register(Board board, User user);
     }
 
     void savePetColor(PetColorType petColorType);
+
+    PageResponseDTO<BoardDTO> findBoardsByUser(String username, PageRequestDTO pageRequestDTO);
 }

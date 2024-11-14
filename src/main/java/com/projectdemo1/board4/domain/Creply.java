@@ -2,14 +2,12 @@ package com.projectdemo1.board4.domain;
 
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
+
 @Builder
 @Getter
 @Setter

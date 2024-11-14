@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <link rel="shortcut icon" href="../static/images/favicon2.png"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>마이 페이지</title>
+  <link rel="stylesheet" href="../static/css/mypage.css">
+</head>
+<body>
+<header class="header">
+  <span style="font-size: 2rem; display: inline;"> 여기서</span>
+  <h1 style="display: inline; font-size: 5rem;">찾개냥</h1>
+  <nav class="nav justify-content-end mt-3">
+    <a class="nav-link text-black" href="@{/signup}">SIGN UP</a>
+    <a class="nav-link text-black" href="@{/login}">LOGIN</a>
+    <a class="nav-link text-black" href="@{/home1}">HOME</a>
+  </nav>
+</header>
+<main>
+  <h2>나의 정보</h2>
+  <div class="user-info">
+    <p><strong>이름:</strong> <span th:text="${user.name}">사용자 이름</span></p>
+    <p><strong>이메일:</strong> <span th:text="${user.email}">사용자 이메일</span></p>
+    <p><strong>전화번호:</strong> <span th:text="${user.phone}">사용자 전화번호</span></p>
+    <!-- 추가적인 사용자 정보 -->
+  </div>
+
+  <h2>내가 쓴 글</h2>
+  <table>
+    <thead>
+    <tr>
+      <th>No</th>
+      <th>제목</th>
+      <th>작성 날짜</th>
+      <th>조회수</th>
+      <th>상태</th>
+      <th>요약</th>
+    </tr>
+    </thead>
+    <tbody>
+    <!-- 사용자 작성 글 목록 -->
+    <tr th:each="post : ${posts}">
+      <td th:text="${post.id}">No</td>
+      <td><a th:href="@{/post-detail(id=${post.id})}" th:text="${post.title}">제목</a></td>
+      <td th:text="${post.date}">작성 날짜</td>
+      <td th:text="${post.views}">조회수</td>
+      <td th:text="${post.status}">상태</td>
+      <td th:text="${post.summary}">요약</td>
+    </tr>
+    </tbody>
+  </table>
+
+  <div class="withdrawal" style="text-align: center;">
+    <h4>회원 탈퇴</h4>
+    <h5>회원 탈퇴를 원하시면 아래 버튼을 클릭하세요.</h5>
+    <form action="@{/withdraw}" method="post" style="display: inline-block;">
+      <button type="submit">회원 탈퇴</button>
+    </form>
+  </div>
+</main>
+<footer>
+  <p>© 2024 찾개냥. All rights reserved.</p>
+</footer>
+</body>
+</html>

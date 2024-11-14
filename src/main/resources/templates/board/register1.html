@@ -4,26 +4,75 @@
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6"
       layout:decorate="~{layout/basic.html}">
 <head>
+    <link rel="shortcut icon" href="../../static/images/favicon2.png"/>
     <title>Find my Owners</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f0f8ff;
+        }
+
         .form-container {
             max-width: 600px;
             margin: auto;
             padding: 20px;
-            background-color: #f7f7f7;
+            background-color: #ffffff;
             border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
         }
+
         .form-group label {
             font-weight: bold;
+            color: #333;
         }
+
         .form-group input, .form-group textarea, .form-group select {
             border-radius: 5px;
+            width: 100%;
+            border: 1px solid #ced4da;
+            padding: 10px;
         }
+
+        .input-group-text {
+            font-weight: bold;
+        }
+
         .btn-primary {
             background-color: #007bff;
             border-color: #007bff;
+        }
+
+        .form-check {
+            display: flex;
+            align-items: center;
+            margin-bottom: 5px;
+        }
+
+        .form-check-input {
+            width: 16px !important;
+            height: 16px !important;
+            margin-right: 0.5rem;
+        }
+
+        .form-buttons button {
+            background-color: #007bff;
+            border-color: #007bff;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 5px;
+            font-size: 0.9rem;
+            margin-right: 10px;
+        }
+
+        .form-buttons button[type="reset"] {
+            background-color: #6c757d;
+            border-color: #6c757d;
+        }
+
+        .form-buttons {
+            text-align: center;
+            margin-top: 20px;
         }
     </style>
 </head>
@@ -31,40 +80,46 @@
 <div layout:fragment="content">
     <div class="container mt-5">
         <div class="form-container">
-            <h3 class="text-center mb-4">이곳은 펫보호자를 찾는 공간입니다</h3>
+            <h3 class="text-center mb-4">이곳은 반려동물 보호자를 찾는 공간입니다</h3>
             <form action="/board/register1" method="post" enctype="multipart/form-data">
+                <input type="hidden" name="postType" value="주인찾기">
                 <div class="form-group">
-                    <label for="title">Title:</label>
-                    <input type="text" class="form-control" id="title" name="title" placeholder="Title" required>
+                    <label for="title">제목 *</label>
+                    <input type="text" class="form-control" id="title" name="title" placeholder="제목" required>
                 </div>
                 <div class="form-group">
-                    <label for="content">Content:</label>
-                    <textarea class="form-control" id="content" name="content" rows="5" placeholder="Content" required></textarea>
+                    <label for="content">내용 *</label>
+                    <textarea class="form-control" id="content" name="content" rows="5" placeholder="내용을 입력해주십시오." required></textarea>
                 </div>
 
                 <div class="form-group">
-                    <label for="writer">Writer:</label>
-                    <input type="text" class="form-control" id="writer" name="writer" th:value="${#authentication.principal.username}" readonly>
+                    <label for="writer">작성자 *:</label>
+                    <input type="text" class="form-control" id="writer" name="writer"
+                           th:value="${#authentication.principal.username}" readonly>
                 </div>
                 <div class="form-group">
                     <label for="reporter">신고자:</label>
                     <input type="text" class="form-control" id="reporter" name="reporter" placeholder="Reporter" required>
                 </div>
                 <div class="form-group">
-                    <label for="contact">연락처:</label>
-                    <input type="text" class="form-control" id="contact" name="contact" placeholder="Contact" required>
+                    <label for="contact">연락처 *:</label>
+                    <input type="number" class="form-control" id="contact" name="contact" placeholder="숫자만 입력해주십시오" maxlength="11" minlength="9"
+                           th:value="${#authentication.principal.username}"
+                           required>
                 </div>
-                <div class = "input-group mb-3">
-                    <label for="files">펫 사진 첨부</label>
+                <div class="input-group mb-3">
+                    <label for="files">동물사진 첨부</label>
                     <span class="input-group-text">FileUpload</span>
                     <input type="file" class="form-control" id="files" name="files" multiple>
-                </div> <!--grace: add file upload-->
+                    <p>최대 3장까지 가능합니다.</p>
+                </div>
                 <div class="form-group">
                     <label for="petColor">동물 색상:</label>
                     <select id="petColor" name="petColorType" class="form-control">
                         <option th:each="color : ${T(com.projectdemo1.domain.boardContent.color.PetColorType).values()}"
                                 th:value="${color.name()}"
-                                th:text="#{${'enum.petcolor.' + color.name()}}">색상</option>
+                                th:text="${color.name()}">색상
+                        </option>
                     </select>
                 </div>
                 <div class="form-group">
@@ -72,30 +127,100 @@
                     <input type="date" class="form-control" id="foundDate" name="foundDate" required>
                 </div>
                 <div class="form-group">
-                    <label for="foundLocation">찾은 장소:</label>
-                    <input type="text" class="form-control" id="foundLocation" name="foundLocation" placeholder="foundLocation" required>
+                    <input class="form-control" style="top:5px;" placeholder="도로명 주소" name="location" id="location1" type="text" readonly>
                 </div>
                 <div class="form-group">
-                    <label for="petBreeds">품종:</label>
+                    <input class="form-control" placeholder="상세 주소" name="locationDetail" id="locationDetail" type="text">
+                </div>
+                <input type="text" id="sample5_address" placeholder="주소">
+                <input type="button" onclick="sample5_execDaumPostcode()" value="주소 검색"><br>
+                <div id="map" style="width:300px;height:300px;margin-top:10px;display:none"></div>
+                <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+                <script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=41caa1d7d9b7baa2f49d25f886b4dc1f&libraries=services"></script>
+                <script>
+                    var mapContainer = document.getElementById('map'), // 지도를 표시할 div
+                        mapOption = {
+                            center: new daum.maps.LatLng(37.537187, 127.005476), // 지도의 중심좌표
+                            level: 5 // 지도의 확대 레벨
+                        };
+
+                    //지도를 미리 생성
+                    var map = new daum.maps.Map(mapContainer, mapOption);
+                    //주소-좌표 변환 객체를 생성
+                    var geocoder = new daum.maps.services.Geocoder();
+                    //마커를 미리 생성
+                    var marker = new daum.maps.Marker({
+                        position: new daum.maps.LatLng(37.537187, 127.005476),
+                        map: map
+                    });
+
+
+                    function sample5_execDaumPostcode() {
+                        new daum.Postcode({
+                            oncomplete: function (data) {
+                                var addr = data.address; // 최종 주소 변수
+
+                                // 주소 정보를 해당 필드에 넣는다.
+                                document.getElementById("sample5_address").value = addr;
+                                // 주소로 상세 정보를 검색
+                                geocoder.addressSearch(data.address, function (results, status) {
+                                    // 정상적으로 검색이 완료됐으면
+                                    if (status === daum.maps.services.Status.OK) {
+
+                                        var result = results[0]; //첫번째 결과의 값을 활용
+
+                                        // 해당 주소에 대한 좌표를 받아서
+                                        var coords = new daum.maps.LatLng(result.y, result.x);
+                                        // 지도를 보여준다.
+                                        mapContainer.style.display = "block";
+                                        map.relayout();
+                                        // 지도 중심을 변경한다.
+                                        map.setCenter(coords);
+                                        // 마커를 결과값으로 받은 위치로 옮긴다.
+                                        marker.setPosition(coords)
+                                    }
+                                });
+                            }
+                        }).open();
+                    }
+                </script>
+                <div class="form-group">
+                    <label for="petBreeds">품종 *:</label>
                     <input type="text" class="form-control" id="petBreeds" name="petBreeds" placeholder="Pet Breeds" required>
                 </div>
                 <div class="form-group">
-                    <label for="petGender">성별:</label>
-                    <select id="petGender" name="petGender" class="form-control">
-                        <option value="MALE">Male</option>
-                        <option value="FEMALE">Female</option>
-                        <option value="UNKNOWN">Unknown</option>
-                    </select>
+                    <label for="female">반려동물 성별:</label>
+                    <div class="form-check">
+                        <input type="radio" id="female" name="petGender" value="암컷" class="form-check-input">
+                        <label for="female" class="form-check-label">암컷</label>
+                    </div>
+                    <div class="form-check">
+                        <input type="radio" id="male" name="petGender" value="수컷" class="form-check-input">
+                        <label for="male" class="form-check-label">수컷</label>
+                    </div>
+                    <div class="form-check">
+                        <input type="radio" id="other" name="petGender" value="모름" class="form-check-input">
+                        <label for="other" class="form-check-label">모름</label>
+                    </div>
                 </div>
                 <div class="form-group">
-                    <label for="petDescription">특징(구체적 묘사):</label>
-                    <textarea class="form-control" id="petDescription" name="petDescription" rows="3" placeholder="Pet Description" required></textarea>
+                    <label for="petDescription">특징(구체적 묘사)*:</label>
+                    <textarea class="form-control" id="petDescription" name="petDescription" rows="3" placeholder="자세한 설명은 소중한 반려동물을 찾는 데에 큰 도움이 됩니다." required></textarea>
                 </div>
+
                 <div class="form-group">
                     <label for="petWeight">몸무게:</label>
-                    <input type="number" class="form-control" id="petWeight" name="petWeight" placeholder="Pet Weight" required>
+                    <div class="input-group">
+                        <input type="number" class="form-control" id="petWeight" name="petWeight" placeholder="몸무게" style="width: 100px;">
+                        <div class="input-group-append">
+                            <span class="input-group-text">kg</span>
+                        </div>
+                    </div>
                 </div>
-                <button type="submit" class="btn btn-primary btn-block">Register</button>
+                <div class="form-buttons">
+                    <button type="reset">전체 삭제</button>
+                    <button type="submit">저장</button>
+                </div>
             </form>
         </div>
     </div>

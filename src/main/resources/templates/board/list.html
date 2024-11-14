@@ -3,6 +3,7 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout/basic.html}">
 <head>
+    <link rel="shortcut icon" href="../../static/images/favicon.ico"/>
     <title>Board List</title>
     <style>
         /* 법령 문구와 반려동물 이미지 섹션 스타일 */
@@ -60,7 +61,7 @@
             left: 5px;
             font-size: 0.8rem;
             font-weight: bold;
-            color: white;
+            color: #0c4128;
             background-color: #f6e5c6;
             padding: 2px 6px;
             border-radius: 3px;
@@ -69,6 +70,14 @@
         /* 주인찾기 라벨 */
         .owner-find .board-type {
             background-color: #76b1c3;
+            position: absolute;
+            top: 5px;
+            left: 5px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            color: white;
+            padding: 2px 6px;
+            border-radius: 3px;
         }
 
         .card-body img {
@@ -88,6 +97,50 @@
             font-size: 1rem;
             margin-bottom: 5px;
         }
+
+        /* 페이지네이션 스타일 */
+        .pagination {
+            display: flex;
+            justify-content: center; /* 페이지 버튼들을 수평으로 중앙 정렬 */
+            align-items: center;     /* 세로로 중앙 정렬 */
+            margin-top: 20px;        /* 위쪽 여백 */
+        }
+
+        .pagination li {
+            margin: 0 5px; /* 페이지 번호 간의 간격 설정 */
+        }
+
+        .pagination .page-link {
+            text-decoration: none;
+            padding: 5px 10px;
+            border: 1px solid #ccc; /* 테두리 스타일 */
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        /* 활성화된 페이지 */
+        .pagination .active .page-link {
+            background-color: #007bff;
+            color: white;
+        }
+
+        /* 비활성화된 페이지 */
+        .pagination .disabled .page-link {
+            background-color: #f8f9fa;
+            color: #007bff;
+            cursor: not-allowed;
+        }
+
+        .pagination .disabled .page-link:hover {
+            background-color: #f8f9fa;
+            color: #007bff;
+        }
+
+        .pagination .page-link:hover {
+            background-color: #007bff;
+            color: white;
+        }
+
     </style>
 </head>
 <body>
@@ -95,11 +148,7 @@
     <div class="law-section">
         <p>＊동물보호법 제12조 제1항 및 같은 법 시행규칙 제8조 제1항 및 제9조제2항에 따라 동물분실신고를 하는 공간입니다.</p>
     </div>
-    <div class="form-group text-right">
-        <a href="/board/register">
-            <button type="button" class="btn btn-secondary btn-sm" id="writeBtn">임시 글쓰기</button>
-        </a>
-    </div>
+
     <div class="row mt-3">
         <form action="/board/list" method="get">
             <div class="col">
@@ -116,6 +165,8 @@
                         </select>
                     </div>
                     <input type="text" class="form-control" name="keyword" th:value="${pageRequestDTO.keyword}">
+                    <input type="date" name="startDate" min="${minDate}" max="${maxDate}">
+                    <input type="date" name="lastDate" min="${minDate}" max="${maxDate}">
                     <div class="input-group-append">
                         <button type="submit" class="btn btn-outline-secondary searchBtn">검색</button>
                         <button type="button" class="btn btn-outline-secondary clearBtn">목록</button>
@@ -124,24 +175,26 @@
             </div>
         </form>
     </div>
+
     <div class="row mt-3">
         <div class="gallery">
-            <div th:each="boardItem : ${responseDTO.dtoList}" class="card"
-                 th:classappend="${boardItem.postType} == '주인찾기' ? ' owner-find' : ''">
+            <div th:each="boardItem : ${responseDTO.dtoList}" class="card">
                 <div class="card-header">
-                    <span class="board-type" th:text="${boardItem.postType}"></span>
-                    <span th:text="${boardItem.regDate}"></span>
+            <span class="board-type"
+                  th:text="${boardItem.postType}"
+                  th:classappend="${boardItem.postType == '주인찾기' ? ' owner-find' : ' pet'}"></span>
+                    <span th:text="${boardItem.createdAt}"></span>
                 </div>
-                <img th:src="@{/images/{image}(image=${boardItem.imageSet})}" alt="Pet Image">
+                <!-- 이미지가 있을 경우에만 표시 -->
+                <img th:src="@{/images/{image}(image=${boardItem.imageSet})}" alt="Pet Image"
+                     th:if="${boardItem.imageSet != null}">
                 <div class="card-body">
-                    <a style="text-decoration: none; text-decoration-line: none; text-decoration-color: #333333;
-                        color: #333333"
+                    <a style="text-decoration: none; text-decoration-line: none; text-decoration-color: #333333; color: #333333"
                        th:href="@{/board/read(bno=${boardItem.bno})}">
-                        <h5 class="card-title" th:text="${boardItem.title}"></h5>
-                        <p>상태: <span th:text="${boardItem.status}"></span></p>
-                        <p>제목: <span th:text="${boardItem.title}"></span></p>
+                        <p><b><span th:text="${boardItem.title}"></span></b></p>
                         <p>성별: <span th:text="${boardItem.petGender}"></span></p>
-                        <p>발견장소: <span th:text="${boardItem.lostLocation}"></span></p>
+                        <p>발견장소: <span th:text="${boardItem.location} + ${boardItem.locationDetail}"></span></p>
+                        <p>발견날짜: <span th:text="${boardItem.createdAt}"></span></p>
                         <p>특징: <span th:text="${boardItem.content}"></span></p>
                     </a>
                 </div>
@@ -150,7 +203,43 @@
                 </div>
             </div>
         </div>
+
+
+
+
+        <!-- 페이지네이션 -->
+        <ul class="pagination flex-wrap">
+            <li class="page-item" th:if="${responseDTO.prev}" th:class="${responseDTO.prev ? 'enabled' : 'disabled'}">
+                <a class="page-link" th:data-num="${1}">처음</a>
+            </li>
+            <li class="page-item" th:if="${responseDTO.prev}" th:class="${responseDTO.prev ? 'enabled' : 'disabled'}">
+                <a class="page-link" th:data-num="${responseDTO.start -1}">이전</a>
+            </li>
+            <th:block th:each="i: ${#numbers.sequence(responseDTO.start, responseDTO.end)}">
+                <li th:class="${responseDTO.page == i}?'page-item active':'page-item'">
+                    <a class="page-link" th:data-num="${i}">[[${i}]]</a>
+                </li>
+            </th:block>
+            <li class="page-item" th:if="${responseDTO.next}" th:class="${responseDTO.next ? 'enabled' : 'disabled'}">
+                <a class="page-link" th:data-num="${responseDTO.end + 1}">다음</a>
+            </li>
+        </ul>
     </div>
 </div>
 </body>
 </html>
+
+<script th:inline="javascript">
+    document.querySelector(".pagination").addEventListener("click", function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        const target = e.target;
+        if (target.tagName !== 'A') {
+            return;
+        }
+        const num = target.getAttribute("data-num");
+        const formObj = document.querySelector("form");
+        formObj.innerHTML += `<input type='hidden' name='page' value='${num}'>`;
+        formObj.submit();
+    }, false);
+</script>

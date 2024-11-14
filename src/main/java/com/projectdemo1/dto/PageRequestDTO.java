@@ -10,18 +10,20 @@ import org.springframework.data.domain.Sort;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.time.LocalDate;
 
 @Builder
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class PageRequestDTO {
-
+    private LocalDate startDate;//list추가
+    private LocalDate lastDate;//list추가
     @Builder.Default
     private int page = 1;
 
     @Builder.Default
-    private int size = 10;
+    private int size = 6;
 
     private String type; // 검색의 종류 t,c, w, tc,tw, twc
 
@@ -39,6 +41,7 @@ public class PageRequestDTO {
     }
 
     private String link;
+
 
     public String getLink() {
 
@@ -65,6 +68,7 @@ public class PageRequestDTO {
 
         return link;
     }
+
 
 
 

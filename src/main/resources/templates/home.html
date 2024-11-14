@@ -1,57 +1,58 @@
-<!DOCTYPE html>
+<!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layout/basic.html}">
-
+      layout:decorate="~{layout/basic.html}" lang="ko">
 <head>
+    <link rel="shortcut icon" href="../static/images/favicon2.png"/>
+    <title>여기서 찾개냥</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <link rel="stylesheet" th:href="@{/css/home.css}">
 </head>
+<body>
 
 <div layout:fragment="content">
     <div class="container">
         <div class="banner">
-            <img src="/images/banner.PNG" alt="Banner Image">
+            <a th:href="@{/board/list}" title="글 목록 보기">
+                <img th:src="@{/images/banner.PNG}" class="img-fluid rounded"
+                     style="width: 150%; height: auto;" alt="강아지와 고양이">
+            </a>
         </div>
-        <div class="row mt-4"> <!-- Added margin-top class -->
-            <div class="col-md-3">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">Find my Pets</h5>
-                        <p class="card-text">펫찾기 게시글 작성</p>
-                        <a href="/board/register" class="btn btn-primary">Find My Pets</a>
+        <div class="container my-4">
+            <div class="row">
+                <div class="col-md-4 text-center">
+                    <div class="item">
+                        <p style="font-family: 'Nunito', sans-serif;">내 반려동물 찾기</p>
+                        <a th:href="@{/board/register}" title="동물찾기 글쓰기">
+                            <img th:src="@{/images/find-pet.PNG}" class="img-fluid rounded" alt="내 반려동물 찾기">
+                        </a>
                     </div>
                 </div>
-            </div>
-            <div class="col-md-3">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">Find my Owners</h5>
-                        <p class="card-text">주인찾기 게시글 작성</p>
-                        <a href="/board/register1" class="btn btn-primary">Find My Owners</a>
+                <div class="col-md-4 text-center">
+                    <div class="item">
+                        <p style="font-family: 'Nunito', sans-serif;">주인을 기다리고 있어요</p>
+                        <a th:href="@{/board/register1}" title="주인찾기 글쓰기">
+                            <img th:src="@{/images/wait.PNG}" class="img-fluid rounded" alt="주인을 기다리고 있어요">
+                        </a>
                     </div>
                 </div>
-            </div>
-            <div class="col-md-3">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">신고글 보기</h5>
-                        <p class="card-text">신고글 작성 보기</p>
-                        <a href="/board/list" class="btn btn-primary">신고글 보기</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">커뮤니티 게시판</h5>
-                        <p class="card-text">커뮤니티 게시판 보기</p>
-                        <a href="/cboard/clist" class="btn btn-primary">커뮤니티 게시판</a>
+                <div class="col-md-4 text-center">
+                    <div class="item">
+                        <p style="font-family: 'Nunito', sans-serif;">커뮤니티</p>
+                        <a th:href="@{/cboard/clist}" title="커뮤니티 글쓰기">
+                            <img th:src="@{/images/comu.PNG}" class="img-fluid rounded" alt="커뮤니티">
+                        </a>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
+</div> <!-- /container -->
 
+<footer th:replace="layout/footer :: footer"></footer>
 <script th:src="@{/js/scripts.js}"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.7/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
 </html>

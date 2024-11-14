@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="shortcut icon" href="../../static/images/favicon.ico"/>
+    <meta charset="UTF-8">
+    <title>Edit Post</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f2f5;
+        }
+        .container {
+            width: 50%;
+            max-width: 600px;
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        h1 {
+            text-align: center;
+            color: #4A90E2;
+        }
+        form label {
+            display: block;
+            margin-top: 15px;
+            font-weight: bold;
+            color: #333;
+        }
+        form input[type="text"], form textarea, form select {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            resize: none;
+        }
+        form textarea {
+            height: 100px;
+        }
+        .button-group {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+        .button-group button {
+            width: 48%;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .button-group .cancel {
+            background-color: #ccc;
+        }
+        .button-group .save {
+            background-color: #4A90E2;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Edit Post</h1>
+    <form th:action="@{/board/modify}" th:object="${board}" method="post">
+        <input type="hidden" th:field="*{bno}"/>
+        <label>Title:</label>
+        <input type="text" th:field="*{title}" />
+        <label>Content:</label>
+        <textarea th:field="*{content}"></textarea>
+        <label>Pet Color Type:</label>
+        <select th:field="*{petColorType}">
+            <option value="BLACK">Black</option>
+            <option value="WHITE">White</option>
+            <option value="BROWN">Brown</option>
+            <option value="GRAY">Gray</option>
+            <option value="OTHER">Other</option>
+        </select>
+        <div class="button-group">
+            <button type="button" class="cancel" onclick="window.history.back()">Cancel</button>
+            <button type="submit" class="save">Save</button>
+        </div>
+    </form>
+</div>
+</body>
+</html>

@@ -12,6 +12,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public class BoardSearchImpl extends QuerydslRepositorySupport implements BoardSearch {
@@ -50,17 +51,16 @@ public class BoardSearchImpl extends QuerydslRepositorySupport implements BoardS
     }
 
     @Override
-    public Page<Board> searchAll(String[] types, String keyword, Pageable pageable) {
+    public Page<Board> searchAll(String[] types, String keyword, Pageable pageable, LocalDate startDate, LocalDate lastDate) {
 
         QBoard board = QBoard.board;
         JPQLQuery<Board> query = from(board);
 
-        if ((types != null && types.length > 0) && keyword != null) { //검색 조건과 키워드가 있다면
-
-            BooleanBuilder booleanBuilder = new BooleanBuilder(); // (
+        // 검색 조건과 키워드가 있다면 처리
+        if ((types != null && types.length > 0) && keyword != null) {
+            BooleanBuilder booleanBuilder = new BooleanBuilder();
 
             for (String type : types) {
-
                 switch (type) {
                     case "t":
                         booleanBuilder.or(board.title.contains(keyword));
@@ -72,14 +72,19 @@ public class BoardSearchImpl extends QuerydslRepositorySupport implements BoardS
                         booleanBuilder.or(board.writer.contains(keyword));
                         break;
                 }
-            }//end for
+            }
             query.where(booleanBuilder);
-        }//end if
+        }
 
-        //bno > 0
+        // 게시글 번호가 0보다 큰 게시글만 조회
         query.where(board.bno.gt(0L));
 
-        //paging
+        // 날짜 조건 추가
+        if (startDate != null && lastDate != null) {
+            query.where(board.createdAt.between(startDate.atStartOfDay(), lastDate.atTime(23, 59, 59)));
+        }
+
+        // 페이징 처리
         this.getQuerydsl().applyPagination(pageable, query);
 
         List<Board> list = query.fetch();
@@ -87,8 +92,8 @@ public class BoardSearchImpl extends QuerydslRepositorySupport implements BoardS
         long count = query.fetchCount();
 
         return new PageImpl<>(list, pageable, count);
-
     }
+
 
     @Override
     public Page<BoardListReplyCountDTO> searchWithReplyCount(String[] types, String keyword, Pageable pageable) {

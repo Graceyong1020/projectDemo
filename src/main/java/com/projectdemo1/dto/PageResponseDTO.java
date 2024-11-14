@@ -10,46 +10,59 @@ import java.util.List;
 @ToString
 public class PageResponseDTO<E> {
 
-    private int page;
-    private int size;
-    private int total;
+    private int page;   // 현재 페이지 번호
+    private int size;   // 한 페이지당 출력될 데이터 수
+    private int total;  // 전체 데이터 수
 
-    //시작 페이지 번호
+    // 시작 페이지 번호
     private int start;
-    //끝 페이지 번호
+    // 끝 페이지 번호
     private int end;
 
-    //이전 페이지의 존재 여부
+    // 이전 페이지 존재 여부
     private boolean prev;
-    //다음 페이지의 존재 여부
+    // 다음 페이지 존재 여부
     private boolean next;
 
     private List<E> dtoList;
 
     @Builder(builderMethodName = "withAll")
-    public PageResponseDTO(PageRequestDTO pageRequestDTO, List<E> dtoList, int total){
+    public PageResponseDTO(PageRequestDTO pageRequestDTO, List<E> dtoList, int total) {
 
-        if(total <= 0){
+        // 전체 데이터가 없는 경우 리턴
+        if (total <= 0) {
             return;
         }
 
-        this.page = pageRequestDTO.getPage();
-        this.size = pageRequestDTO.getSize();
-
-        this.total = total;
+        this.page = pageRequestDTO.getPage();  // 현재 페이지 번호
+        this.size = pageRequestDTO.getSize();  // 페이지당 데이터 수
+        this.total = total;  // 전체 데이터 수
         this.dtoList = dtoList;
 
-        this.end =   (int)(Math.ceil(this.page / 10.0 )) *  10;
-
+        // 마지막 페이지 번호 계산
+        this.end = (int) (Math.ceil(this.page / 10.0)) * 10;
         this.start = this.end - 9;
 
-        int last =  (int)(Math.ceil((total/(double)size)));
+        // 실제 데이터에 따른 전체 페이지 수 계산
+        int last = (int) (Math.ceil((total / (double) size)));
 
-        this.end =  end > last ? last: end;
+        // 끝 페이지 번호가 실제 마지막 페이지보다 클 수 없도록 조정
+        this.end = Math.min(end, last);
 
+        // 이전 페이지 여부: 시작 페이지가 1보다 크면 true
         this.prev = this.start > 1;
 
-        this.next =  total > this.end * this.size;
+        // 다음 페이지 여부: 현재 끝 페이지 * 페이지당 데이터 수가 전체 데이터 수보다 작으면 true
+        this.next = this.total > this.end * this.size;
 
+        // 디버깅용 로그 출력
+        System.out.println("Page: " + this.page);
+        System.out.println("Size: " + this.size);
+        System.out.println("Total: " + this.total);
+        System.out.println("Start: " + this.start);
+        System.out.println("End: " + this.end);
+        System.out.println("Last: " + last);
+        System.out.println("Prev: " + this.prev);
+        System.out.println("Next: " + this.next);
     }
 }

@@ -2,22 +2,16 @@ package com.projectdemo1.board4.controller;
 
 
 import com.projectdemo1.auth.PrincipalDetails;
-import com.projectdemo1.board4.domain.Cboard;
-
 import com.projectdemo1.board4.dto.CboardDTO;
 import com.projectdemo1.board4.dto.CpageRequestDTO;
 import com.projectdemo1.board4.dto.CpageResponseDTO;
 import com.projectdemo1.board4.dto.upload.CuploadFileDTO;
 import com.projectdemo1.board4.service.CboardService;
-
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-
 import net.coobird.thumbnailator.Thumbnailator;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
@@ -27,7 +21,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.File;

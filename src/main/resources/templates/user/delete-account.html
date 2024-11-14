@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6"
+      layout:decorate="~{layout/basic.html}">
+<head>
+  <meta charset="UTF-8">
+  <title>회원탈퇴</title>
+  <style>
+
+
+    .delete-button {
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #1b9a2c;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .delete-button:hover {
+      background-color: #206128;
+    }
+  </style>
+</head>
+<body layout:fragment="content">
+
+<div class="container">
+  <div class="content">
+    <h2>회원탈퇴</h2>
+    <p>회원탈퇴 안내</p>
+    <div class="notice">
+      - 탈퇴한 아이디는 재사용이 불가능합니다.<br>
+      - 회원탈퇴 시 작성하셨던 게시글은 보존됩니다.<br>
+      - 탈퇴 전에 확인해야 할 정보가 있으면 미리 확인하시기 바랍니다.<br>
+      - 탈퇴 시 회원 정보는 영구 삭제되며, 복구가 불가능합니다.
+    </div>
+  </div>
+  <br>
+  <br>
+  <form th:action="@{/user/delete-account}" method="post" onsubmit="return confirmDelete()">
+    <div class="form-group">
+      <label for="password">비밀번호 확인</label>
+      <input type="password" id="password" name="password" placeholder="비밀번호를 입력하세요" required>
+    </div>
+
+    <div class="form-actions">
+      <button type="submit" class="delete-button">회원탈퇴</button>
+    </div>
+  </form>
+</div>
+</div>
+</body>
+</html>
+<script>
+  function confirmDelete() {
+    return confirm("정말로 탈퇴하시겠습니까?");
+  }
+</script>

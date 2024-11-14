@@ -1,35 +1,37 @@
-/* Import custom font */
 @font-face {
-    font-family: "Baskerville Old Face";
+    font-family: 'mainfont';
+    src: url('../../templates/fonts/mainfont.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
 }
 
-/* Basic styles */
+/* 기본 스타일 */
+
 body {
-    font-family: 'PocheonMakgeolli', sans-serif; /* Set default font */
+    font-family: 'PocheonMakgeolli', sans-serif; /* 기본 폰트 설정 */
     margin: 0;
     padding: 0;
     background-color: #ffffff;
 }
 
-/* Header styles */
+/* 헤더 스타일 */
 header {
     background-color: #a3d879 !important;
-    padding: 15px;
+
     text-align: center;
     box-shadow: 0 2px 5px rgba(19, 14, 14, 0.1);
 }
 
 span {
-    font-size: 1rem; /* Set small font size */
-    display: inline; /* Display inline */
+    font-size: 1rem; /* 작은 폰트 크기 설정 */
+    display: inline; /* 같은 라인에 표시 */
 }
 
-/* Navigation styles */
+/* 네비게이션 스타일 */
 nav {
-    text-align: right; /* Align to the right */
-    margin-top: -5px; /* Adjust if needed */
+    font-size:20px;
+    text-align: right; /* 오른쪽 정렬 */
+    margin-top: -5px; /* 필요시 조정 */
 }
 
 nav a {
@@ -44,7 +46,7 @@ nav a:hover {
     color: #CEF6D8;
 }
 
-/* Banner styles */
+/* 배너 스타일 */
 .banner {
     position: relative;
     text-align: center;
@@ -55,8 +57,12 @@ nav a:hover {
     max-height: 400px;
     object-fit: cover;
     border-radius: 10px;
+    cursor: pointer;
+    transition: transform 0.3s;
 }
-
+.banner img:hover {
+    transform: scale(1.05);
+}
 .banner h2 {
     position: absolute;
     top: 50%;
@@ -67,7 +73,8 @@ nav a:hover {
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
-/* Gallery styles */
+
+/* 갤러리 스타일 */
 .gallery {
     display: flex;
     justify-content: space-around;
@@ -93,11 +100,7 @@ nav a:hover {
     transform: scale(1.05);
 }
 
-.row.mt-4 {
-    margin-top: 20px; /* Adjust the value as needed */
-}
-
-/* Footer styles */
+/* 푸터 스타일 */
 footer {
     text-align: center;
     padding: 10px;

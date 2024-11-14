@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/basic.html}">
+<link rel="stylesheet" href="../static/css/view.css">
+
+<head>
+    <link rel="shortcut icon" href="../../static/images/favicon2.png"/>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${title}">찾개냥</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="@{/css/home.css}">
+    <style>
+        /* 전체 페이지 스타일 */
+        body {
+            font-family: 'Nunito', sans-serif;
+            background-color: #f4f4f4;
+            padding-top: 20px;
+        }
+
+        .container {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        /* 제목 스타일 */
+        .header h1 {
+            text-align: center;
+            font-size: 3rem;
+            font-weight: bold;
+            color: #333;
+        }
+
+        /* 이미지 스타일링 */
+        .board-image {
+            width: 100%; /* 전체 너비로 이미지 표시 */
+            height: auto; /* 비율 유지 */
+            object-fit: cover; /* 잘리지 않게 조정 */
+            margin-bottom: 20px; /* 이미지와 글 사이의 간격 */
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .board-info {
+            margin-top: 30px;
+        }
+
+        .board-info .form-group {
+            font-size: 1.1rem;
+        }
+
+        .board-comment-list {
+            margin-top: 50px;
+        }
+
+        .board-comment-list table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .board-comment-list th, .board-comment-list td {
+            padding: 10px;
+            text-align: center;
+            border: 1px solid #ddd;
+        }
+
+        .board-comment-list th {
+            background-color: #f8f9fa;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .board-comment-list td {
+            color: #666;
+        }
+
+        .btn-custom {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+        }
+
+        .btn-custom:hover {
+            background-color: #0056b3;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 20px;
+            font-size: 1rem;
+            color: #333;
+            background-color: #f8f9fa;
+            border-top: 1px solid #ddd;
+        }
+    </style>
+</head>
+
+<body>
+
+<header class="header">
+    <h1>찾개냥</h1>
+</header>
+
+<main>
+    <div class="container mt-3">
+        <h3>게시글 상세보기</h3>
+
+        <!-- 게시글 이미지 표시 -->
+        <div class="form-group">
+            <label for="image">게시글 이미지:</label>
+            <img th:src="@{/uploads/${imagePath}}" alt="게시글 이미지" class="board-image" id="image">
+        </div>
+
+        <!-- 게시글 정보 -->
+        <div class="board-info">
+            <div class="form-group">
+                <label for="num">글번호:</label>
+                <input type="text" class="form-control" id="num" name="num" th:value="${board.num}" readonly="readonly">
+            </div>
+            <div class="form-group">
+                <label for="title">제목:</label>
+                <input type="text" class="form-control" id="title" name="title" th:value="${board.title}" readonly="readonly">
+            </div>
+            <div class="form-group">
+                <label for="writer">글쓴이:</label>
+                <input type="text" class="form-control" id="writer" name="writer" th:value="${board.writer}" readonly="readonly">
+            </div>
+            <div class="form-group">
+                <label for="content">내용:</label>
+                <textarea name="content" id="content" class="form-control" readonly="readonly" th:text="${board.content}"></textarea>
+            </div>
+        </div>
+
+        <!-- 댓글 목록 테이블 -->
+        <div class="board-comment-list">
+            <h4>댓글 목록</h4>
+            <button type="button" class="btn btn-custom addReplyBtn">댓글 추가</button>
+
+            <!-- 댓글 테이블 -->
+            <table>
+                <thead>
+                <tr>
+                    <th>댓글번호</th>
+                    <th>댓글 내용</th>
+                    <th>작성자</th>
+                    <th>작성일</th>
+                </tr>
+                </thead>
+                <tbody id="replyList">
+                <!-- 댓글 내용은 JavaScript로 동적으로 추가 -->
+                </tbody>
+            </table>
+        </div>
+
+        <!-- 댓글 등록 모달 -->
+        <div class="modal registerModal" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">댓글 작성</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">댓글 내용</span>
+                            <input type="text" class="form-control replyText">
+                        </div>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">작성자</span>
+                            <input type="text" class="form-control replyer">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary registerBtn">등록</button>
+                        <button type="button" class="btn btn-outline-dark closeRegisterBtn">닫기</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 댓글 수정 및 삭제 모달 -->
+        <div class="modal modifyModal" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title replyHeader"></h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">댓글 내용</span>
+                            <input type="text" class="form-control modifyText">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-info modifyBtn">수정</button>
+                        <button type="button" class="btn btn-danger removeBtn">삭제</button>
+                        <button type="button" class="btn btn-outline-dark closeModifyBtn">닫기</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 댓글 목록 갱신 버튼 -->
+        <button id="btnList" class="btn btn-custom">목록으로</button>
+    </div>
+</main>
+
+<footer class="footer">
+    <p>© 2024 찾개냥. All rights reserved.</p>
+</footer>
+
+<!-- Scripts -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.7/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+<script>
+    // 게시글 번호 (서버에서 동적으로 설정)
+    const bno = [[${board.num}]];
+
+    const replyList = document.querySelector('#replyList');
+
+    // 댓글 목록 출력 함수
+    function printList(dtoList) {
+        let str = '';
+        if (dtoList && dtoList.length > 0) {
+            dtoList.forEach(dto => {
+                str += `<tr class="replyItem">
+                    <td>${dto.rno}</td>
+                    <td data-rno="${dto.rno}">${dto.replyText}</td>
+                    <td>${dto.replyer}</td>
+                    <td>${dto.createdAt}</td>
+                </tr>`;
+            });
+        }
+        replyList.innerHTML = str;
+    }
+
+    // 댓글 추가 버튼 클릭 시 모달 띄우기
+    const registerModal = new bootstrap.Modal(document.querySelector(".registerModal"));
+    document.querySelector(".addReplyBtn").addEventListener("click", () => {
+        registerModal.show();
+    });
+
+    // 댓글 등록
+    document.querySelector(".registerBtn").addEventListener("click", () => {
+        const replyObj = {
+            bno: bno,
+            replyText: document.querySelector(".replyText").value,
+            replyer: document.querySelector(".replyer").value
+        };
+
+        axios.post('/api/reply', replyObj)
+            .then(response => {
+                alert('댓글이 등록되었습니다.');
+                registerModal.hide();
+                document.querySelector(".replyText").value = '';
+                document.querySelector(".replyer").value = '';
+                printReplies(1, 10, true);  // 댓글 목록 갱신
+            })
+            .catch(e => alert('댓글 등록에 실패했습니다.'));
+    });
+
+    // 댓글 목록 갱신 함수
+    function printReplies(page, size, goLast) {
+        axios.get(`/api/reply/${bno}?page=${page}&size=${size}`)
+            .then(response => {
+                printList(response.data.dtoList); // 댓글 목록 출력
+                // 추가로 페이지네이션 처리도 여기에 구현할 수 있습니다.
+            })
+            .catch(e => console.error('댓글 목록을 가져오는 데 실패했습니다.', e));
+    }
+
+    // 초기 댓글 목록 로드
+    printReplies(1, 10, true);
+</script>
+
+</body>
+</html>

@@ -4,79 +4,117 @@
       layout:decorate="~{layout/basic.html}">
 
 <head>
+    <link rel="shortcut icon" href="../../static/images/favicon.ico"/>
     <style>
         body {
             background-color: #f8f9fa;
         }
-        .card {
-            border-radius: 15px;
+        .login-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #ffffff;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            padding: 20px;
+            max-width: 800px;
+            margin: auto;
         }
-        .card-header {
-            background-color: #20c997;
-            color: white;
-            border-top-left-radius: 15px;
-            border-top-right-radius: 15px;
+        .signup-prompt, .login-form {
+            flex: 1;
+            padding: 20px;
         }
-        .form-control {
-            font-size: 0.875rem;
-            padding: 0.5rem;
-            width: 75%;
-            margin: 0 auto;
+        .signup-prompt {
+            background-color: #c5e1a5;
+            border-radius: 8px;
             text-align: center;
-
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
         }
-
-        .form-group label {
+        .signup-prompt img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        .signup-prompt h2 {
+            color: #004d40;
+        }
+        .signup-link {
+            color: #004d40;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .login-form h2 {
+            color: #004d40;
+            margin-bottom: 20px;
+        }
+        .login-form label {
             display: block;
+            margin-bottom: 5px;
+            color: #004d40;
+        }
+        .login-form input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .login-form button {
+            width: 100%;
+            padding: 10px;
+            background-color: #4caf50;
+            border: none;
+            border-radius: 4px;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .login-form button:hover {
+            background-color: #388e3c;
+        }
+        footer {
             text-align: center;
-        }
-
-        .btn-primary {
-            background-color: #a3d879;
-            border: none;
-        }
-        .btn-primary:hover {
-            background-color: #2ecc71;
-        }
-        .btn-secondary {
-            background-color: #6c757d;
-            border: none;
-        }
-        .btn-secondary:hover {
-            background-color: #5a6268;
+            margin-top: 20px;
+            color: #004d40;
         }
     </style>
 </head>
 
+<body>
 <div layout:fragment="content">
-    <div class="container mt-5">
-        <div class="row justify-content-center">
-            <div class="col-md-6">
-                <div class="card">
-                    <div class="card-header text-center">
-                        <h3>LOGIN</h3>
+    <main>
+        <div class="login-container">
+            <div class="signup-prompt">
+                <img src="/images/warkdog.PNG" alt="산책하는 강아지">
+                <h3>혹시 회원이 아니신가요?</h3>
+                <p><a href="/user/join" class="signup-link">회원가입하기</a></p>
+            </div>
+            <div class="login-form">
+                <h2 class="text-center">로그인</h2>
+                <form action="/login" method="post">
+                    <div class="form-group mb-3">
+                        <label for="username">아이디</label>
+                        <input type="text" class="form-control" id="username" placeholder="아이디를 입력해주십시오." name="username" required>
                     </div>
-                    <div class="card-body">
-                        <form action="/login" method="post">
-                            <div class="form-group mb-3">
-                                <label for="username">아이디</label>
-                                <input type="text" class="form-control" id="username" placeholder="Enter username" name="username" required>
-                            </div>
-                            <div class="form-group mb-3">
-                                <label for="password">비밀번호</label>
-                                <input type="password" class="form-control" id="password" placeholder="Enter password" name="password" required>
-                            </div>
-                            <div class="d-grid gap-2">
-                                <button type="submit" class="btn btn-primary">로그인</button>
-                                <button type="button" class="btn btn-secondary">회원가입</button>
-                            </div>
-                        </form>
+                    <div class="form-group mb-3">
+                        <label for="password">비밀번호</label>
+                        <input type="password" class="form-control" id="password" placeholder="비밀번호를 입력해주십시오." name="password" required>
                     </div>
-                </div>
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-primary">로그인</button>
+                        <button type="button" class="btn btn-secondary">회원가입</button>
+                    </div>
+                </form>
             </div>
         </div>
-    </div>
+    </main>
+    <footer>
+        <p>© 2024 찾개냥. All rights reserved.</p>
+    </footer>
 </div>
 <script layout:fragment="script" th:inline="javascript">
     document.querySelector(".btn-secondary").addEventListener("click", function (e) {
@@ -84,3 +122,5 @@
         self.location = "/user/join";
     });
 </script>
+</body>
+</html>

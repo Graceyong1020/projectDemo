@@ -6,6 +6,21 @@
       lang="en">
 <head>
     <title>게시글 상세 보기</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .reply-form {
+            margin-top: 20px;
+        }
+        .reply-form .form-group {
+            margin-bottom: 15px;
+        }
+        .reply-form .form-control {
+            border-radius: 4px;
+        }
+        .reply-form .btn {
+            border-radius: 4px;
+        }
+    </style>
 </head>
 <body>
 <div layout:fragment="content">
@@ -17,7 +32,7 @@
                 </div>
                 <div class="card-body">
                     <div class="input-group mb-3">
-                        <span class="input-group-text">No</span>
+                        <span class="input-group-text">번호</span>
                         <input type="text" class="form-control" th:value="${dto.cno}" readonly>
                     </div>
                     <div class="input-group mb-3">

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/basic.html}"
+      lang="en">
+<link rel="stylesheet" href="../../static/css/register_temp.css">
+<meta charset="UTF-8">
+<head>
+    <link rel="shortcut icon" href="../../static/images/favicon.ico"/>
+    <meta charset="UTF-8">
+    <title>글쓰기</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <h4>내정보</h4>
+    <table class="table detail-table mt-0 mb-30">
+        <caption>분실신고자 정보로 신고자, 연락처</caption>
+        <colgroup>
+            <col style="width: 500px">
+            <col style="width: 160px">
+            <col style="width: 500px">
+            <col style="width: 160px">
+        </colgroup>
+        <tbody>
+        <tr>
+            <th scope="row" class="first">신고자</th>
+            <td class="text-left">
+                성함
+            </td>
+            <th scope="row">연락처</th>
+            <td class="text-left last">
+                <a href="tel:010-4755-8091">010-XXXX-XXXX</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h4>내가 쓴 분실동물 정보</h4>
+    <table class="table detail-table mt-0 mb-30">
+        <caption>분실동물 정보로 품종, 성별, 특징, 몸무게, 털색상, 길이, 나이, 발견장소</caption>
+        <colgroup>
+            <col style="width: 160px">
+            <col style="width: 500px">
+            <col style="width: 160px">
+            <col style="width: 500px">
+        </colgroup>
+        <tbody>
+        <tr>
+            <th scope="row" class="first">품종</th>
+            <td class="text-left">선택</td>
+            <th scope="row">털 색상</th>
+            <td class="text-left last">선택</td>
+            <th scope="row">이름</th>
+            <td class="text-left last">입력</td>
+        </tr>
+        <tr>
+            <th scope="row" class="first">성별</th>
+            <td class="text-left">선택</td>
+            <th scope="row">나이</th>
+            <td class="text-left last">선택</td>
+            <th scope="row">길이</th>
+            <td class="text-left last">입력(*단위 필수 기입)</td>
+        </tr>
+        <tr>
+            <th scope="row" class="first">특징(구체적 묘사)</th>
+            <td class="text-left last" colspan="3">입력</td>
+            <th scope="row" class="first">몸무게</th>
+            <td class="text-left last" colspan="3">입력</td>
+        </tr>
+        <tr>
+            <th scope="row" class="first">발견 날짜와 장소</th>
+            <td class="text-left last" colspan="3">입력</td>
+            <th scope="row" class="first">처리현황</th>
+            <td class="text-left last" colspan="3">접수 완료(미처리)</td>
+        </tr>
+        </tbody>
+    </table>
+</div>

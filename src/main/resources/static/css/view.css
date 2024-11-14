@@ -1,0 +1,93 @@
+/* 전체 페이지 스타일 */
+body {
+    font-family: 'Nunito', sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 20px;
+}
+
+.container {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* 제목 스타일 */
+.header h1 {
+    text-align: center;
+    font-size: 3rem;
+    font-weight: bold;
+    color: #333;
+}
+
+/* 이미지 스타일링 */
+.board-image {
+    width: 100%; /* 전체 너비로 이미지 표시 */
+    height: auto; /* 비율 유지 */
+    object-fit: cover; /* 잘리지 않게 조정 */
+    margin-bottom: 20px; /* 이미지와 글 사이의 간격 */
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.board-info {
+    margin-top: 30px;
+}
+
+.board-info .form-group {
+    font-size: 1.1rem;
+}
+
+.board-comment-list {
+    margin-top: 50px;
+}
+
+.board-comment-list table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.board-comment-list th, .board-comment-list td {
+    padding: 10px;
+    text-align: center;
+    border: 1px solid #ddd;
+}
+
+.board-comment-list th {
+    background-color: #f8f9fa;
+    font-weight: bold;
+    color: #333;
+}
+
+.board-comment-list td {
+    color: #666;
+}
+
+/* 버튼 스타일 */
+.btn-custom {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+}
+
+.btn-custom:hover {
+    background-color: #0056b3;
+}
+
+/* 푸터 스타일 */
+.footer {
+    text-align: center;
+    padding: 20px;
+    font-size: 1rem;
+    color: #333;
+    background-color: #f8f9fa;
+    border-top: 1px solid #ddd;
+}

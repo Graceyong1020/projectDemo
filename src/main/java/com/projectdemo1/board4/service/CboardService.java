@@ -5,10 +5,7 @@ import com.projectdemo1.board4.domain.Cboard;
 import com.projectdemo1.board4.dto.CboardDTO;
 import com.projectdemo1.board4.dto.CpageRequestDTO;
 import com.projectdemo1.board4.dto.CpageResponseDTO;
-import com.projectdemo1.domain.User;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 

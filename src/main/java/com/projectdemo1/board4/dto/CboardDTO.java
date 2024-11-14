@@ -1,7 +1,6 @@
 package com.projectdemo1.board4.dto;
 
 
-import com.projectdemo1.domain.User;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;

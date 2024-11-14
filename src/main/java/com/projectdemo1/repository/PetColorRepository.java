@@ -1,6 +1,5 @@
 package com.projectdemo1.repository;
 
-import com.projectdemo1.domain.User;
 import com.projectdemo1.domain.boardContent.color.PetColor;
 import org.springframework.data.jpa.repository.JpaRepository;
 

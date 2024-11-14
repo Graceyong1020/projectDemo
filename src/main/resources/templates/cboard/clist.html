@@ -3,25 +3,58 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout/basic.html}">
 <head>
+    <link rel="shortcut icon" href="../../static/images/favicon.ico"/>
     <title>게시글 목록</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
+        body {
+            background-color: #f0f8f5; /* Light green background for the page */
+        }
         .table thead th {
-            background-color: #f8f9fa;
+            background-color: #a8e6cf; /* Light green background for table headers */
+            color: #004d40; /* Dark green text for table headers */
         }
         .table tbody tr:hover {
-            background-color: #f1f1f1;
+            background-color: #d4edda; /* Light green background on hover */
         }
         .card-title {
             font-size: 1.5rem;
             font-weight: bold;
+            color: #388e3c; /* Dark green color for card title */
         }
         .pagination .page-item.active .page-link {
-            background-color: #007bff;
-            border-color: #007bff;
+            background-color: #388e3c; /* Dark green background for active page link */
+            border-color: #388e3c; /* Dark green border for active page link */
         }
         .pagination .page-link {
-            color: #007bff;
+            color: #388e3c; /* Dark green color for page links */
+            font-size: 1.2rem; /* Adjust font size */
+        }
+        .pagination .page-item {
+            margin: 0 5px; /* Adjust spacing between page items */
+        }
+        .btn-primary {
+            background-color: #4caf50; /* Green background for primary buttons */
+            border-color: #4caf50; /* Green border for primary buttons */
+        }
+        .btn-primary:hover {
+            background-color: #388e3c; /* Darker green on hover */
+            border-color: #2e7d32; /* Darker green border on hover */
+        }
+        .btn-outline-secondary {
+            color: #4caf50; /* Green color for outline buttons */
+            border-color: #4caf50; /* Green border for outline buttons */
+        }
+        .btn-outline-secondary:hover {
+            background-color: #4caf50; /* Green background on hover */
+            color: white; /* White text on hover */
+        }
+        .form-select, .form-control {
+            border-color: #4caf50; /* Green border for form elements */
+        }
+        .form-select:focus, .form-control:focus {
+            border-color: #388e3c; /* Darker green border on focus */
+            box-shadow: 0 0 0 0.2rem rgba(56, 142, 60, 0.25); /* Green shadow on focus */
         }
     </style>
 </head>
@@ -138,12 +171,12 @@
         self.location = '/cboard/clist';
     }, false);
 
-    // show modal
+ /*   // show modal
     const result = [[${result}]];
     const modal = new bootstrap.Modal(document.querySelector(".modal"));
     if (result) {
         modal.show();
-    }
+    }*/
 </script>
 </body>
 </html>

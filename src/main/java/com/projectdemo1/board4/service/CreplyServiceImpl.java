@@ -7,7 +7,6 @@ import com.projectdemo1.board4.dto.CpageResponseDTO;
 import com.projectdemo1.board4.dto.CreplyDTO;
 import com.projectdemo1.board4.repository.CboardRepository;
 import com.projectdemo1.board4.repository.CreplyRepository;
-
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -38,7 +37,7 @@ public class CreplyServiceImpl implements CreplyService{
                 .replyText(creplyDTO.getReplyText())
                 .replyer(creplyDTO.getReplyer())
                 .build();
-        Cboard cboard = cboardRepository.getOne(creplyDTO.getCno());
+        Cboard cboard = cboardRepository.findById(creplyDTO.getCno()).orElseThrow();
         creply.setCboard(cboard);
 
         //Creply creply = modelMapper.map(creplyDTO, Creply.class);

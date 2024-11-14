@@ -8,6 +8,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Log4j2
@@ -17,6 +18,8 @@ public class PrincipalDetailService  implements UserDetailsService {
     private final UserRepository userRepository;
 
     @Override
+    @Transactional
+
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         log.info("loadUserByUsername");
         User user=userRepository.findByUsername(username);

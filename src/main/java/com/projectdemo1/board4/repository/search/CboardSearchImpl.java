@@ -4,7 +4,6 @@ import com.projectdemo1.board4.domain.Cboard;
 import com.projectdemo1.board4.domain.QCboard;
 import com.projectdemo1.domain.Board;
 import com.querydsl.core.BooleanBuilder;
-
 import com.querydsl.jpa.JPQLQuery;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;

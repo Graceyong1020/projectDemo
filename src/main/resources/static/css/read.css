@@ -1,0 +1,106 @@
+@font-face {
+    font-family: 'mainfont';
+    src: url('../../templates/fonts/mainfont.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f9f9f9;
+}
+
+header {
+    font-family: 'PocheonMakgeolli', sans-serif;
+    background-color: #a3d879 !important;
+    text-align: center;
+    box-shadow: 0 2px 5px rgba(19, 14, 14, 0.1);
+}
+
+h3, h5 {
+    margin-bottom: 20px;
+    font-family: 'PocheonMakgeolli', sans-serif;
+}
+
+.card {
+    margin: 20px 0; /* 카드 간격 조정 */
+}
+
+.input-group {
+    margin-bottom: 15px; /* 입력 그룹 간격 조정 */
+}
+
+.input-group-text {
+    background-color: #a3d879; /* 입력 그룹 텍스트 배경색 */
+    color: white; /* 텍스트 색상 */
+}
+
+input[type="text"], textarea {
+    background-color: white; /* 배경색 */
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 8px; /* 패딩 조정 */
+}
+
+textarea {
+    resize: vertical; /* 세로 크기 조정 가능 */
+}
+
+.btn {
+    border-radius: 5px; /* 버튼 모서리 둥글게 */
+}
+
+.btn-primary {
+    background-color: #007bff; /* 기본 버튼 색상 */
+    color: white;
+}
+
+.btn-secondary {
+    background-color: #6c757d; /* 보조 버튼 색상 */
+    color: white;
+}
+
+.btn-info {
+    background-color: #17a2b8; /* 정보 버튼 색상 */
+    color: white;
+}
+
+.replyList {
+    margin-top: 20px; /* 댓글 목록 간격 조정 */
+}
+
+.replyItem {
+    display: flex;
+    justify-content: space-between; /* 댓글 항목 정렬 */
+    padding: 10px;
+    border-bottom: 1px solid #ccc; /* 아래 경계선 추가 */
+}
+
+.replyItem:hover {
+    background-color: #f1f1f1; /* 마우스 오버 시 배경색 변경 */
+}
+
+.pagination {
+    justify-content: center; /* 페이지네이션 중앙 정렬 */
+    margin-top: 20px; /* 페이지네이션 간격 조정 */
+}
+
+.modal-header {
+    background-color: #a3d879; /* 모달 헤더 배경색 */
+    color: white; /* 텍스트 색상 */
+}
+
+.modal-footer {
+    justify-content: space-between; /* 모달 푸터 버튼 정렬 */
+}
+
+/* 푸터 스타일 */
+footer {
+    text-align: center;
+    padding: 10px;
+    background-color: #fff8e0;
+    border-top: 1px solid #ffffff;
+    margin-top: 20px;
+}

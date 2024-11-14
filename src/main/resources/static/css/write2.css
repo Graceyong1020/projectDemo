@@ -1,6 +1,6 @@
 @font-face {
-    font-family: 'PocheonMakgeolli';
-    src: url('../../templates/fonts/PochenMakgeolli.ttf') format('truetype');
+    font-family: 'mainfont';
+    src: url('../../templates/fonts/mainfont.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
 }
@@ -15,7 +15,6 @@ body {
 header {
     font-family: 'PocheonMakgeolli', sans-serif;
     background-color: #a3d879 !important;
-    padding: 15px;
     text-align: center;
     box-shadow: 0 2px 5px rgba(19, 14, 14, 0.1);
 }
@@ -27,6 +26,7 @@ span {
 
 /* 네비게이션 스타일 */
 nav {
+    font-size:20px;
     text-align: right; /* 오른쪽 정렬 */
     margin-top: -5px; /* 필요시 조정 */
 }

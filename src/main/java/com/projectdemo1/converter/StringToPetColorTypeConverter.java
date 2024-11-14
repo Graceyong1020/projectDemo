@@ -1,8 +1,8 @@
 package com.projectdemo1.converter;
 
+import com.projectdemo1.domain.boardContent.color.PetColorType;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
-import com.projectdemo1.domain.boardContent.color.PetColorType;
 
 @Component
 public class StringToPetColorTypeConverter implements Converter<String, PetColorType> {

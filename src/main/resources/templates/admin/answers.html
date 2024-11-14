@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <link rel="shortcut icon" href="../../static/images/favicon2.png"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title th:text="${title}">답글 관리</title>
+  <link rel="stylesheet" th:href="@{/css/adminstyle.css}">
+</head>
+<body>
+<header>
+  <h1>답글 관리</h1>
+  <nav>
+    <a th:href="@{/adminboard}">대시보드</a>
+  </nav>
+</header>
+<main>
+  <h2>답글 목록</h2>
+  <table>
+    <thead>
+    <tr>
+      <th>ID</th>
+      <th>댓글 ID</th>
+      <th>내용</th>
+      <th>작성자</th>
+      <th>상태</th>
+      <th>작업</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="reply : ${replies}">
+      <td th:text="${reply.id}">1</td>
+      <td th:text="${reply.commentId}">1</td>
+      <td th:text="${reply.content}">저도 동감입니다!</td>
+      <td th:text="${reply.author}">이영희</td>
+      <td th:text="${reply.status}">게시됨</td>
+      <td>
+        <a th:href="@{/replies/edit/{id}(id=${reply.id})}">수정</a> |
+        <a th:href="@{/replies/delete/{id}(id=${reply.id})}">삭제</a>
+      </td>
+    </tr>
+    <!-- 추가 답글 행 -->
+    </tbody>
+  </table>
+  <button th:onclick="'location.href=\'/replies/create\''">답글 작성</button>
+</main>
+<footer>
+  <p>© 2024 찾개냥 관리자. All rights reserved.</p>
+</footer>
+</body>
+</html>

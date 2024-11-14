@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/basic.html}">
+<head>
+    <meta charset="UTF-8">
+    <title>회원정보 수정</title>
+    <style>
+        /* CSS 코드 시작 */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+
+        }
+
+        body {
+            background-color: #f8f9fa;
+            color: #333;
+            font-size: 14px;
+        }
+
+        .header {
+            background-color: #1b9a2c;
+            color: #fff;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+
+        .header .user-info {
+            font-size: 1.5rem;
+        }
+
+        .header .user-info a {
+            color: #fff;
+            text-decoration: none;
+            margin-left: 15px;
+        }
+
+        body > .container {
+            display: flex;
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+        }
+
+        .sidebar {
+            width: 200px;
+            padding: 20px;
+            background-color: #fff;
+            border-right: 1px solid #ddd;
+        }
+
+        .sidebar ul {
+            list-style: none;
+        }
+
+        .sidebar ul li {
+            margin-bottom: 10px;
+        }
+
+        .sidebar ul li a {
+            text-decoration: none;
+            color: #333;
+        }
+
+        .sidebar ul li a.active {
+            color: #1b9a2c;
+            font-weight: bold;
+        }
+
+        .content {
+            flex: 1;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            margin-left: 20px;
+        }
+
+        .content h2 {
+            font-size: 20px;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .form {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .form-group input[type="text"],
+        .form-group input[type="email"],
+        .form-group input[type="password"],
+        .form-group input[type="tel"] {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        .form-actions {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .cancel-button,
+        .submit-button {
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .cancel-button {
+            background-color: #ddd;
+            color: #333;
+            margin-right: 10px;
+        }
+
+        .submit-button {
+            background-color: #1b9a2c;
+            color: #fff;
+        }
+
+        .submit-button:hover {
+            background-color: #206128;
+        }
+
+        /* CSS 코드 끝 */
+    </style>
+</head>
+<body layout:fragment="content">
+
+<div class="container">
+    <div class="sidebar">
+        <ul>
+            <li><a href="/user/delete-account">회원탈퇴</a></li>
+            <li><a href="/user/edit-profile" class="active">회원정보 수정</a></li>
+            <li><a href="/user/my-posts">내가 작성한 글 보기</a></li>
+        </ul>
+    </div>
+
+    <div class="content">
+        <h2>회원기본정보</h2>
+        <form action="/user/edit-profile" method="post" class="form">
+            <div class="form-group">
+                <label for="userId">아이디</label>
+                <input type="text" id="userId" name="username" th:value="${user.username}" readonly>
+            </div>
+
+            <div class="form-group">
+                <label for="nickname">닉네임</label>
+                <input type="text" id="nickname" name="nickname" th:value="${user.nickname}" required>
+            </div>
+
+            <div class="form-group">
+                <label for="password">비밀번호</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+
+            <div class="form-group">
+                <label for="confirmPassword">비밀번호 확인</label>
+                <input type="password" id="confirmPassword" name="confirmPassword" required>
+            </div>
+
+            <div class="form-group">
+                <label for="email">이메일</label>
+                <input type="email" id="email" name="email" th:value="${user.email}" required>
+            </div>
+
+            <div class="form-group">
+                <label for="mobile">휴대번호</label>
+                <input type="tel" id="mobile" name="mobile" th:value="${user.mobile}" required>
+            </div>
+
+            <div class="form-actions">
+                <button type="button" class="cancel-button" onclick="location.href='/mypage'">취소</button>
+                <button type="submit" class="submit-button">정보수정</button>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+</html>

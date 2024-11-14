@@ -1,11 +1,57 @@
-<!DOCTYPE html>
+<!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layout/basic.html}">
+      layout:decorate="~{layout/basic.html}" lang="ko">
+<head>
+  <link rel="shortcut icon" href="../static/images/favicon3.png"/>
+  <title>여기서 찾개냥</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <link rel="stylesheet" th:href="@{/css/home.css}">
+</head>
+<body>
 
 <div layout:fragment="content">
   <div class="container">
-    <h3>Index page</h3>
-    <img src="/images/abc.png">
+    <div class="banner">
+      <a th:href="@{/board/list}" title="글 목록 보기">
+        <img th:src="@{/images/banner.PNG}" class="img-fluid rounded" alt="강아지와 고양이">
+      </a>
+    </div>
+    <div class="container my-4">
+      <div class="row">
+        <div class="col-md-4 text-center">
+          <div class="item">
+            <p style="font-family: 'Nunito', sans-serif;">내 반려동물 찾기</p>
+            <a th:href="@{/board/register}" title="동물찾기 글쓰기">
+              <img th:src="@{/images/find-pet.PNG}" class="img-fluid rounded" alt="내 반려동물 찾기">
+            </a>
+          </div>
+        </div>
+        <div class="col-md-4 text-center">
+          <div class="item">
+            <p style="font-family: 'Nunito', sans-serif;">주인을 기다리고 있어요</p>
+            <a th:href="@{/board/register1}" title="주인찾기 글쓰기">
+              <img th:src="@{/images/wait.PNG}" class="img-fluid rounded" alt="주인을 기다리고 있어요">
+            </a>
+          </div>
+        </div>
+        <div class="col-md-4 text-center">
+          <div class="item">
+            <p style="font-family: 'Nunito', sans-serif;">커뮤니티</p>
+            <a th:href="@{/cboard/clist}" title="커뮤니티 글쓰기">
+              <img th:src="@{/images/comu.PNG}" class="img-fluid rounded" alt="커뮤니티">
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
-</div>
+</div> <!-- /container -->
+
+<footer th:replace="layout/footer :: footer"></footer>
+<script th:src="@{/js/scripts.js}"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.7/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

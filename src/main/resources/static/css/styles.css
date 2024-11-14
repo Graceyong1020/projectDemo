@@ -636,8 +636,6 @@ progress {
     width: 100%;
     padding-right: var(--bs-gutter-x, 0.75rem);
     padding-left: var(--bs-gutter-x, 0.75rem);
-    margin-right: auto;
-    margin-left: auto;
 }
 
 @media (min-width: 576px) {
@@ -4023,6 +4021,7 @@ textarea.form-control-lg {
 }
 
 .navbar {
+    font-family: 'PocheonMakgeolli',sans-serif;
     position: relative;
     display: flex;
     flex-wrap: wrap;
@@ -4030,6 +4029,8 @@ textarea.form-control-lg {
     justify-content: space-between;
     padding-top: 0.5rem;
     padding-bottom: 0.5rem;
+    box-shadow: 0 2px 5px rgba(19, 14, 14, 0.1);
+
 }
 .navbar > .container,
 .navbar > .container-fluid,
@@ -4042,14 +4043,15 @@ textarea.form-control-lg {
     flex-wrap: inherit;
     align-items: center;
     justify-content: space-between;
+    margin: 0 !important;
 }
 .navbar-brand {
     padding-top: 0.3125rem;
     padding-bottom: 0.3125rem;
-    margin-right: 1rem;
     font-size: 1.25rem;
     text-decoration: none;
     white-space: nowrap;
+    margin: 0 !important;
 }
 .navbar-nav {
     display: flex;
@@ -4057,10 +4059,12 @@ textarea.form-control-lg {
     padding-left: 0;
     margin-bottom: 0;
     list-style: none;
+    margin: 0 !important;
 }
 .navbar-nav .nav-link {
     padding-right: 0;
     padding-left: 0;
+
 }
 .navbar-nav .dropdown-menu {
     position: static;

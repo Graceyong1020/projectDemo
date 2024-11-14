@@ -4,39 +4,74 @@
       layout:decorate="~{layout/basic.html}"
       lang="en">
 <head>
+    <link rel="shortcut icon" href="../../static/images/favicon3.png"/>
     <title>커뮤니티 게시글 작성</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f0f8f5;
+        }
+        .card-header {
+            background-color: #a8e6cf;
+            color: #004d40;
+        }
+        .input-group-text {
+            background-color: #a8e6cf;
+            color: #004d40;
+        }
+        .form-control:read-only {
+            background-color: #e0f7e9;
+        }
+        .btn-primary {
+            background-color: #4caf50;
+            border-color: #4caf50;
+        }
+        .btn-primary:hover {
+            background-color: #388e3c;
+            border-color: #2e7d32;
+        }
+        .btn-outline-secondary {
+            color: #4caf50;
+            border-color: #4caf50;
+        }
+        .btn-outline-secondary:hover {
+            background-color: #4caf50;
+            color: white;
+        }
+    </style>
 </head>
 <body>
-<div layout:fragment="content"> <!--현재 페이지에서 이걸 새로 작업하게됨 -->
+<div layout:fragment="content" class="container mt-5">
     <div class="card">
-        <div class="card-body">
+        <div class="card-header">
             <h5 class="card-title">커뮤니티 게시글 작성</h5>
+        </div>
+        <div class="card-body">
             <form action="cregister" method="post" enctype="multipart/form-data">
                 <div class="input-group mb-3">
-                    <span class="input-group-text">Title</span>
+                    <span class="input-group-text">제목</span>
                     <input type="text" class="form-control" name="title" placeholder="Title">
                 </div>
 
                 <div class="input-group mb-3">
-                    <span class="input-group-text">Content</span>
+                    <span class="input-group-text">내용</span>
                     <textarea name="content" class="form-control col-sm-5" rows="5"></textarea>
                 </div>
 
                 <div class="input-group mb-3">
-                    <span class="input-group-text">Writer</span>
-                    <input type="text" class="form-control" name="writer"  th:value="${#authentication.principal.username}">
+                    <span class="input-group-text">작성자</span>
+                    <input type="text" class="form-control" name="writer" th:value="${#authentication.principal.username}">
                 </div>
 
                 <div class="input-group mb-3">
-                    <span class="input-group-text">FileUpload</span>
+                    <span class="input-group-text">파일 업로드</span>
                     <input type="file" class="form-control" id="files" name="files" multiple>
                 </div>
 
-                <div class="input-group mb-3">
-                    <button type="submit" class="btn btn-primary">Submit</button>
-                    <button type="reset" class="btn btn-secondary">Reset</button>
+                <div class="d-flex justify-content-end">
+                    <button type="submit" class="btn btn-primary me-2">작성</button>
+                    <button type="reset" class="btn btn-outline-secondary">취소</button>
                 </div>
-
             </form>
         </div>
     </div>

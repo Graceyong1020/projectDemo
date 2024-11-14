@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <link rel="shortcut icon" href="../static/images/favicon3.png"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>연락처 정보</title>
+  <link rel="stylesheet" href="../static/css/write2.css">
+</head>
+<body>
+<header class="header">
+  <span style="font-size: 2rem; display: inline;"> 여기서</span>
+  <h1 style="display: inline; font-size: 5rem;">찾개냥</h1>
+  <nav class="nav justify-content-end mt-3">
+    <a class="nav-link text-black" href="@{/signup}">SIGN UP</a>
+    <a class="nav-link text-black" href="@{/login}">LOGIN</a>
+    <a class="nav-link text-black" href="@{/home1}">HOME</a>
+  </nav>
+</header>
+<main>
+  <h2>주인을 기다려요</h2>
+  <form action="@{/findwriteOK}" method="post" id="pet-info-form" enctype="multipart/form-data">
+    <div class="form-group">
+      <label for="name">이름*:</label>
+      <input type="text" id="name" name="name" required>
+    </div>
+    <div class="form-group">
+      <label for="email">이메일*:</label>
+      <input type="email" id="email" name="email" required>
+    </div>
+    <div class="form-group">
+      <label for="phone">전화번호:</label>
+      <input type="tel" id="phone" name="phone">
+    </div>
+    <div class="form-buttons">
+      <button type="reset">리셋</button>
+      <button type="submit">제출</button>
+    </div>
+  </form>
+</main>
+<footer>
+  <p>© 2024 찾개냥. All rights reserved.</p>
+</footer>
+</body>
+</html>

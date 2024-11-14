@@ -1,14 +1,11 @@
 package com.projectdemo1.config;
 
-import jakarta.servlet.DispatcherType;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
-
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -25,37 +22,36 @@ import org.springframework.security.web.SecurityFilterChain;
 public class CustomSecurityConfig {
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http)throws Exception {
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         log.info("security config...........");
 
         return http
                 .csrf(httpSecurityCsrfConfigurer -> httpSecurityCsrfConfigurer.disable())
-                //.cors(httpSecurityCorsConfigurer -> httpSecurityCorsConfigurer.disable())
                 .authorizeHttpRequests(authorizeHttpRequestsConfigurer -> authorizeHttpRequestsConfigurer
-                        .dispatcherTypeMatchers(DispatcherType.FORWARD).permitAll()
-                        .requestMatchers("/user/login", "/board/**", "/user/**","/", "/home", "/cboard/**").permitAll()
+                        .requestMatchers("/home", "/user/**").permitAll() // antMatchers -> requestMatchers로 변경
+                        .requestMatchers("/board/**", "/user/**", "/", "/home", "/cboard/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/board/**").permitAll()
                         .requestMatchers("/admin/**").hasAuthority("ADMIN")
                         .requestMatchers("/creplies/**").authenticated()
                         .anyRequest().authenticated())
-
                 .formLogin(formLoginConfigurer -> formLoginConfigurer
                         .loginPage("/user/login")
                         .loginProcessingUrl("/login")
                         .usernameParameter("username")
                         .passwordParameter("password")
-                        .defaultSuccessUrl("/home")
-                        .failureUrl("/user/login?error=true")
+                        .defaultSuccessUrl("/home", true)
+                        .failureUrl("/error")
                         .permitAll())
-
                 .logout(logoutConfigurer -> logoutConfigurer
                         .logoutUrl("/logout")
                         .logoutSuccessUrl("/home")
                         .invalidateHttpSession(true)
                         .clearAuthentication(true))
-
+                .exceptionHandling(exceptionHandlingConfigurer -> exceptionHandlingConfigurer
+                        .accessDeniedPage("/user/login"))  // 접근 거부 시 로그인 페이지로 리다이렉션
                 .build();
     }
+
 
     @Bean  // 정적 자원을 Security 적용에 제외 시킴
     public WebSecurityCustomizer configure() {
