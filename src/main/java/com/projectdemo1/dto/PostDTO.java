@@ -1,7 +1,18 @@
 package com.projectdemo1.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.projectdemo1.domain.Post;
+import com.projectdemo1.domain.User;
+import lombok.*;
+
 import java.time.LocalDateTime;
 
+@Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
 public class PostDTO {
 
     private Long bno;
@@ -10,80 +21,26 @@ public class PostDTO {
     private String title;
     private String content;
     private String writer;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
-    private int hitCount;
+
+    private Long hitCount;
     private String postType;
 
-    public Long getBno() {
-        return bno;
+    private User user;
+
+    public PostDTO(Post post) {
+        this.bno = post.getBno();
+        this.cno = post.getCno();
+        this.title = post.getTitle();
+        this.content = post.getContent();
+        this.writer = post.getWriter();
+        this.createdAt = post.getCreatedAt();
+
+        this.hitCount = post.getHitCount();
+        this.postType = post.getPostType();
+        this.user = post.getUser();
     }
 
-    public void setBno(Long bno) {
-        this.bno = bno;
-    }
 
-    public Long getCno() {
-        return cno;
-    }
-
-    public void setCno(Long cno) {
-        this.cno = cno;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-    public String getWriter() {
-        return writer;
-    }
-
-    public void setWriter(String writer) {
-        this.writer = writer;
-    }
-
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public LocalDateTime getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(LocalDateTime updatedAt) {
-        this.updatedAt = updatedAt;
-    }
-
-    public int getHitCount() {
-        return hitCount;
-    }
-
-    public void setHitCount(int hitCount) {
-        this.hitCount = hitCount;
-    }
-
-    public String getPostType() {
-        return postType;
-    }
-
-    public void setPostType(String postType) {
-        this.postType = postType;
-    }
 }

@@ -11,6 +11,7 @@ import org.springframework.data.domain.Sort;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.time.LocalDate;
+import java.util.List;
 
 @Builder
 @Data
@@ -68,6 +69,7 @@ public class PageRequestDTO {
 
         return link;
     }
+
 
 
 
