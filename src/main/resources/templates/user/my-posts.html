@@ -75,16 +75,15 @@
         </tr>
         </thead>
         <tbody>
-        <tr th:each="boardItem : ${responseDTO.dtoList}">
-            <td th:text="${boardItem.bno}"></td>
-            <td th:text="${boardItem.title}"></td>
-            <!-- 작성일을 날짜 형식으로 표시 -->
-            <td th:text="${#temporals.format(boardItem.createdAt, 'yyyy-MM-dd HH:mm:ss')}">2024-11-11</td>
-            <td th:text="${boardItem.hitCount}"></td>
+        <tr th:each="post : ${posts.dtoList}">
+            <td th:text="${post.bno}"></td>
+            <td th:text="${post.title}"></td>
+            <td th:text="${#temporals.format(post.createdAt, 'yyyy-MM-dd HH:mm:ss')}"></td>
+            <td th:text="${post.hitCount}"></td>
             <td>
-                <a th:href="@{/board/read/{id}(id=${boardItem.id})}" class="btn">보기</a>
-                <a th:href="@{/board/modify/{id}(id=${boardItem.id})}" class="btn">수정</a>
-                <a th:href="@{/board/remove/{id}(id=${boardItem.id})}" class="btn" onclick="return confirm('정말 삭제하시겠습니까?')">삭제</a>
+                <a th:href="@{/board/read/{id}(id=${post.bno})}" class="btn">보기</a>
+                <a th:href="@{/board/modify/{id}(id=${post.bno})}" class="btn">수정</a>
+                <a th:href="@{/board/remove/{id}(id=${post.bno})}" class="btn" onclick="return confirm('정말 삭제하시겠습니까?')">삭제</a>
             </td>
         </tr>
         </tbody>

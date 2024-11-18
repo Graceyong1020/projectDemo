@@ -65,4 +65,15 @@ public class PageResponseDTO<E> {
         System.out.println("Prev: " + this.prev);
         System.out.println("Next: " + this.next);
     }
+
+    public PageResponseDTO(List<E> dtoList, int totalPages, long totalElements) {
+        this.dtoList = dtoList;
+        this.total = (int) totalElements;
+        this.size = dtoList.size();
+        this.page = 1;
+        this.start = 1;
+        this.end = totalPages;
+        this.prev = false;
+        this.next = totalPages > 1;
+    }
 }
