@@ -22,13 +22,13 @@ import org.springframework.security.web.SecurityFilterChain;
 public class CustomSecurityConfig {
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain filterChain(HttpSecurity http, UserDetailsService userDetailService) throws Exception {
         log.info("security config...........");
 
         return http
                 .csrf(httpSecurityCsrfConfigurer -> httpSecurityCsrfConfigurer.disable())
                 .authorizeHttpRequests(authorizeHttpRequestsConfigurer -> authorizeHttpRequestsConfigurer
-                        .requestMatchers("/home", "/user/**").permitAll() // antMatchers -> requestMatchers로 변경
+                        .requestMatchers("/home", "/user/**").permitAll()
                         .requestMatchers("/board/**", "/user/**", "/", "/home", "/cboard/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/board/**").permitAll()
                         .requestMatchers("/admin/**").hasAuthority("ADMIN")
@@ -42,13 +42,17 @@ public class CustomSecurityConfig {
                         .defaultSuccessUrl("/home", true)
                         .failureUrl("/error")
                         .permitAll())
+                .rememberMe(rememberMeConfigurer -> rememberMeConfigurer
+                        .key("uniqueAndSecret")
+                        .tokenValiditySeconds(86400)
+                        .userDetailsService(userDetailService))
                 .logout(logoutConfigurer -> logoutConfigurer
                         .logoutUrl("/logout")
                         .logoutSuccessUrl("/home")
                         .invalidateHttpSession(true)
                         .clearAuthentication(true))
                 .exceptionHandling(exceptionHandlingConfigurer -> exceptionHandlingConfigurer
-                        .accessDeniedPage("/user/login"))  // 접근 거부 시 로그인 페이지로 리다이렉션
+                        .accessDeniedPage("/user/login"))
                 .build();
     }
 
