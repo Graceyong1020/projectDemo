@@ -10,5 +10,5 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addFormatters(FormatterRegistry registry) {
         registry.addConverter(new StringToPetColorTypeConverter());
-    }
+    } //enum 타입의 color를 string으로 만들어서 타입캐스팅하는 역할. color가 enum이 아니면 필요없음
 }

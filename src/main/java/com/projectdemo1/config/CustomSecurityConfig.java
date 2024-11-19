@@ -64,7 +64,7 @@ public class CustomSecurityConfig {
     }
 
     @Bean
-    public BCryptPasswordEncoder bCryptPasswordEncoder() {
+    public BCryptPasswordEncoder bCryptPasswordEncoder() {   //sh1, md5 등 공부해보기
         return new BCryptPasswordEncoder();
     }
 

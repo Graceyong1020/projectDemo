@@ -83,7 +83,7 @@
         const hasLowerCase = /[a-z]/.test(password);
         const hasNumber = /[0-9]/.test(password);
         const hasEnoughChars = password.length >= minLength && password.length < maxLength;
-        const hasDuplicateChars = /(.)\1{1,}/.test(password);
+        const hasDuplicateChars = /(.)\1{2,}/.test(password);
 
         return hasEnoughChars && hasUpperCase && hasLowerCase && hasNumber && !hasDuplicateChars;
     }

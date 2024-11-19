@@ -3,7 +3,7 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout/basic.html}" lang="ko">
 <head>
-  <link rel="shortcut icon" href="../static/images/favicon3.png"/>
+  <link rel="shortcut icon" href="../static/images/favicon2.png"/>
   <title>여기서 찾개냥</title>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
   <link rel="stylesheet" th:href="@{/css/home.css}">
@@ -14,7 +14,8 @@
   <div class="container">
     <div class="banner">
       <a th:href="@{/board/list}" title="글 목록 보기">
-        <img th:src="@{/images/banner.PNG}" class="img-fluid rounded" alt="강아지와 고양이">
+        <img th:src="@{/images/banner.PNG}" class="img-fluid rounded"
+             style="width: 150%; height: auto;" alt="강아지와 고양이">
       </a>
     </div>
     <div class="container my-4">
