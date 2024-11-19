@@ -17,6 +17,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -31,14 +33,28 @@ public class CreplyServiceImpl implements CreplyService{
     private final CboardRepository cboardRepository;
     private final ModelMapper modelMapper;
 
+    @Transactional
     @Override
     public Long register(CreplyDTO creplyDTO) {
+        if (creplyDTO.getCno() == null) {
+            throw new IllegalArgumentException("Cno cannot be null");
+        }
+
+        Cboard cboard = cboardRepository.findById(creplyDTO.getCno())
+                .orElseThrow(() -> new IllegalArgumentException("Cno is not valid"));
+
         Creply creply = Creply.builder()
+                .cboard(cboard)
                 .replyText(creplyDTO.getReplyText())
                 .replyer(creplyDTO.getReplyer())
+                .createdAt(new Date())
                 .build();
-        Cboard cboard = cboardRepository.findById(creplyDTO.getCno()).orElseThrow();
-        creply.setCboard(cboard);
+
+        if (creplyDTO.getParentRno() != null) {
+            Creply parentCreply = creplyRepository.findById(creplyDTO.getParentRno())
+                    .orElseThrow(() -> new IllegalArgumentException("댓글이 존재하지 않습니다."));
+            creply.setParent(parentCreply);
+        }
 
         //Creply creply = modelMapper.map(creplyDTO, Creply.class);
         creplyRepository.save(creply);

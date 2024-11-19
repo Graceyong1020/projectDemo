@@ -3,10 +3,7 @@ package com.projectdemo1.board4.dto;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.validation.constraints.NotEmpty;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
@@ -14,6 +11,8 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
+@Getter
+@Setter
 public class CreplyDTO {
 
     private Long rno;
@@ -30,4 +29,6 @@ public class CreplyDTO {
     private LocalDateTime createdAt;
     @JsonIgnore
     private LocalDateTime updatedAt;
+
+    private Long parentRno;
 }

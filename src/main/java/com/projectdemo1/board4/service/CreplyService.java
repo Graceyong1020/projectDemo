@@ -8,7 +8,7 @@ import com.projectdemo1.board4.dto.CreplyDTO;
 
 public interface CreplyService {
 
-    Long register(CreplyDTO dto);
+    Long register(CreplyDTO creplyDTO);
 
     CreplyDTO read(Long rno);
 

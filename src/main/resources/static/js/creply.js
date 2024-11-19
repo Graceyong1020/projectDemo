@@ -22,6 +22,10 @@ async function getList({cno, page, size, goLast}){
 }
 
 async function addReply(replyObj) {
+    if (!replyObj.cno) {
+        console.error('cno is required');
+        throw new Error('cno is required');
+    }
     try {
         const response = await axios.post(`/creplies/`, replyObj);
         return response.data;

@@ -2,11 +2,15 @@ package com.projectdemo1.board4.domain;
 
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.Comment;
 import org.hibernate.annotations.CreationTimestamp;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Builder
 @Getter
@@ -23,9 +27,10 @@ public class Creply {
     private Long rno;
     private String replyText;
 
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cno", nullable = false)
-  /*  @JsonIgnore*/
+    @JsonIgnore
     private Cboard cboard;
 
 
@@ -39,4 +44,15 @@ public class Creply {
     public void changeText(String text) {
         this.replyText = text;
     }
+
+
+    //대댓글
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "parent_rno")
+    @JsonIgnore
+    private Creply parent;
+
+    @OneToMany(mappedBy = "parent", fetch = FetchType.LAZY)
+    private List<Creply> children = new ArrayList<>();
+
 }

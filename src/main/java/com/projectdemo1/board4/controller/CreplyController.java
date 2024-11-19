@@ -37,7 +37,7 @@ public class CreplyController {
         }
 
         Map<String, Long> resultMap = new HashMap<>();
-        Long rno = creplyService.register(creplyDTO);
+        Long rno = creplyService.register(creplyDTO); // change to cno
         resultMap.put("rno", rno);
         return resultMap;
     }
@@ -63,7 +63,7 @@ public class CreplyController {
     }
 
     @PutMapping(value = "/{rno}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public Map<String, Long> remove(@PathVariable("rno") Long rno, @RequestBody CreplyDTO creplyDTO) {
+    public Map<String, Long> modify (@PathVariable("rno") Long rno, @RequestBody CreplyDTO creplyDTO) {
         creplyDTO.setRno(rno);
         creplyService.modify(creplyDTO);
         Map<String, Long> resultMap = new HashMap<>();

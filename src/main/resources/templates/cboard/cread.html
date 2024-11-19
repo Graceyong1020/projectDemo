@@ -323,6 +323,19 @@
             console.log(e);
         });
     }, false);
+
+
+    // 대댓글
+    // 대댓글
+    const addReplyBtn = document.querySelector(".replyList");
+    addReplyBtn.addEventListener("click", function (e) {
+        const parentId = e.target.getAttribute("data-rno");
+        if (parentId) {
+            registerModal.show();
+        } else {
+            console.error("data-rno attribute not found on the target element.");
+        }
+    }, false);
 </script>
 </body>
 </html>
