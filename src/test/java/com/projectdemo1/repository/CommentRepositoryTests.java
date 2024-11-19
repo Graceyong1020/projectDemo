@@ -31,8 +31,8 @@ public class CommentRepositoryTests {
 
         Comment comment = Comment.builder()
                 .board(board)
-                .content("댓글....")
-                .writer("replyer1")
+                //.content("댓글....")
+               // .writer("replyer1")
                 .build();
 
         commentRepository.save(comment);

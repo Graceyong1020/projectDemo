@@ -16,8 +16,8 @@ public class ReplyServiceTests {
     @Test
     public void testRegister() {
         CommentDTO commentDTO = CommentDTO.builder()
-                .content("CommentDTO Text")
-                .writer("replyer")
+                //.content("CommentDTO Text")
+               // .writer("replyer")
                 .bno(100L)
                 .build();
 
