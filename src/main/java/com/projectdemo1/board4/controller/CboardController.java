@@ -68,7 +68,7 @@ public class CboardController {
         cboardDTO.setFileNames(strFileNames);
 
         // Set the uno field from the authenticated user
-        cboardDTO.setCno(principalDetails.getUser().getUno());
+        // cboardDTO.setCno(principalDetails.getUser().getUno());
 
         log.info("cboard POST register..........");
         log.info((cboardDTO));

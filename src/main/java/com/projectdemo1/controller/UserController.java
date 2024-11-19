@@ -1,22 +1,16 @@
 package com.projectdemo1.controller;
 
-import com.projectdemo1.auth.PrincipalDetails;
-import com.projectdemo1.domain.Post;
+
 import com.projectdemo1.domain.User;
-import com.projectdemo1.dto.BoardDTO;
-import com.projectdemo1.dto.PageRequestDTO;
-import com.projectdemo1.dto.PageResponseDTO;
-import com.projectdemo1.dto.PostDTO;
-import com.projectdemo1.repository.PostRepository;
 import com.projectdemo1.repository.UserRepository;
 import com.projectdemo1.service.BoardServiceImpl;
-import com.projectdemo1.service.PostService;
+
 import com.projectdemo1.service.UserServiceImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.security.core.Authentication;
+
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.context.SecurityContextHolder;
+
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -24,7 +18,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import java.security.Principal;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -35,7 +29,6 @@ import java.util.Map;
 
 public class UserController {
     private final UserRepository userRepository;
-    private final PostService postService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final UserServiceImpl userServiceImpl;
     private final BoardServiceImpl boardServiceImpl;
